@@ -4,7 +4,12 @@ import PortalVue from 'portal-vue'
 import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress/src'
 
+
+
+Vue.config.devtools = process.env.NODE_ENV === 'development'
 Vue.config.productionTip = false
+
+
 Vue.mixin({ methods: { route: window.route } })
 Vue.use(plugin)
 Vue.use(PortalVue)
@@ -14,7 +19,7 @@ InertiaProgress.init()
 
 const el = document.getElementById('app')
 
-new Vue({
+var app = new Vue({
   metaInfo: {
     titleTemplate: title => (title ? `${title} - Ping CRM` : 'Ping CRM'),
   },
@@ -26,3 +31,6 @@ new Vue({
       },
     }),
 }).$mount(el)
+
+window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = app.constructor
+Vue.config.devtools = process.env.NODE_ENV === 'development'

@@ -2,12 +2,17 @@
 
 namespace App\Providers;
 
+use League\Glide\Server;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use League\Glide\Server;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public function boot()
+    {
+        JsonResource::withoutWrapping();
+    }
     /**
      * Register any application services.
      *
@@ -23,15 +28,5 @@ class AppServiceProvider extends ServiceProvider
                 'base_url' => 'img',
             ]);
         });
-    }
-
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
     }
 }
