@@ -2,37 +2,63 @@
 
 namespace App\Models;
 
+use League\Glide\Server;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\URL;
-use League\Glide\Server;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract, MustVerifyEmail
 {
-    use SoftDeletes, Authenticatable, Authorizable;
+    use SoftDeletes, Authenticatable, Authorizable, HasFactory, Notifiable;
+    use \Illuminate\Auth\MustVerifyEmail;
 
     protected $casts = [
         'owner' => 'boolean',
+        'email_verified_at' => 'datetime',
     ];
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
 
     public function account()
     {
         return $this->belongsTo(Account::class);
     }
 
-    public function getNameAttribute()
+
+    // public function setPasswordAttribute($password)
+    // {
+    //     if (!$password) return;
+
+    //     $this->attributes['password'] = Hash::make($password);
+    // }
+
+    public function setPhotoAttribute($photo)
     {
-        return $this->first_name.' '.$this->last_name;
+        if (!$photo) return;
+
+        $this->attributes['photo_path'] = $photo instanceof UploadedFile ? $photo->store('users') : $photo;
     }
 
-    public function setPasswordAttribute($password)
+    public function getPhotoAttribute()
     {
-        $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
+        return $this->photoUrl(['w' => 40, 'h' => 40, 'fit' => 'crop']);
     }
 
     public function photoUrl(array $attributes)
@@ -55,8 +81,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function scopeWhereRole($query, $role)
     {
         switch ($role) {
-            case 'user': return $query->where('owner', false);
-            case 'owner': return $query->where('owner', true);
+            case 'user':
+                return $query->where('owner', false);
+            case 'owner':
+                return $query->where('owner', true);
         }
     }
 
@@ -64,9 +92,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where(function ($query) use ($search) {
-                $query->where('first_name', 'like', '%'.$search.'%')
-                    ->orWhere('last_name', 'like', '%'.$search.'%')
-                    ->orWhere('email', 'like', '%'.$search.'%');
+                $query->where('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('last_name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
             });
         })->when($filters['role'] ?? null, function ($query, $role) {
             $query->whereRole($role);

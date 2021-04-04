@@ -7,6 +7,8 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\NotesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +21,31 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::middleware('auth')->group(function () {
+    // Dashboard
+    //Route::get('/')->name('dashboard')->uses('DashboardController');
+
+
+    // Categories
+    Route::get('categories', [CategoriesController::class, 'index'])->name('categories')->middleware('remember');
+    Route::get('categories/create', [CategoriesController::class, 'create'])->name('categories.create');
+    Route::post('categories', [CategoriesController::class, 'store'])->name('categories.store');
+    Route::get('categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
+    Route::put('categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
+    Route::delete('categories/{category}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
+    Route::put('categories/{category}/restore', [CategoriesController::class, 'restore'])->name('categories.restore');
+
+
+    // Notes
+    Route::get('notes', [NotesController::class, 'index'])->name('notes');
+    Route::get('notes/create', [NotesController::class, 'create'])->name('notes.create');
+    Route::post('notes', [NotesController::class, 'store'])->name('notes.store');
+    Route::get('notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');
+    Route::put('notes/{note}', [NotesController::class, 'update'])->name('notes.update');
+    Route::delete('notes/{note}', [NotesController::class, 'destroy'])->name('notes.destroy');
+    Route::put('notes/{note}/restore', [NotesController::class, 'restore'])->name('notes.restore');
+});
 
 // Auth
 
