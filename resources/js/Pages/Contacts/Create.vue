@@ -9,16 +9,27 @@
         <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
           <text-input v-model="form.first_name" :error="form.errors.first_name" class="pr-6 pb-8 w-full lg:w-1/2" label="First name" />
           <text-input v-model="form.last_name" :error="form.errors.last_name" class="pr-6 pb-8 w-full lg:w-1/2" label="Last name" />
-          <select-input v-model="form.organization_id" :error="form.errors.organization_id" class="pr-6 pb-8 w-full lg:w-1/2" label="Organization">
+
+          <!-- <div class="pr-6 pb-8 w-full lg:w-1/2">
+            <label class="form-label" for="organization">Organization :</label>
+            <select id="organization" ref="input" v-model="form.organization_id" :error="form.errors.organization_id" class="form-select" :class="{ error: form.errors.organization_id }">
+              <option :value="null" />
+              <option v-for="organization in organizations" :key="organization.id" :value="organization.id">{{ organization.name }}</option>
+            </select>
+            <div v-if="form.errors.organization_id" class="form-error">{{ form.errors.organization_id }}</div>
+          </div> -->
+
+          <select-input :value="form.organization_id" :error="form.errors.organization_id" class="pr-6 pb-8 w-full lg:w-1/2" label="Organization" @change="organizationChange">
             <option :value="null" />
             <option v-for="organization in organizations" :key="organization.id" :value="organization.id">{{ organization.name }}</option>
           </select-input>
+
           <text-input v-model="form.email" :error="form.errors.email" class="pr-6 pb-8 w-full lg:w-1/2" label="Email" />
           <text-input v-model="form.phone" :error="form.errors.phone" class="pr-6 pb-8 w-full lg:w-1/2" label="Phone" />
           <text-input v-model="form.address" :error="form.errors.address" class="pr-6 pb-8 w-full lg:w-1/2" label="Address" />
           <text-input v-model="form.city" :error="form.errors.city" class="pr-6 pb-8 w-full lg:w-1/2" label="City" />
           <text-input v-model="form.region" :error="form.errors.region" class="pr-6 pb-8 w-full lg:w-1/2" label="Province/State" />
-          <select-input v-model="form.country" :error="form.errors.country" class="pr-6 pb-8 w-full lg:w-1/2" label="Country">
+          <select-input :value="form.country" :error="form.errors.country" class="pr-6 pb-8 w-full lg:w-1/2" label="Country" @change="countryChange">
             <option :value="null" />
             <option value="CA">Canada</option>
             <option value="US">United States</option>
@@ -41,16 +52,20 @@ import LoadingButton from '@/Shared/LoadingButton'
 
 export default {
   metaInfo: { title: 'Create Contact' },
+
   components: {
     LoadingButton,
     SelectInput,
     TextInput,
   },
+
   layout: Layout,
+
   props: {
     organizations: Array,
   },
-  remember: 'form',
+
+  //remember: 'form',
   data() {
     return {
       form: this.$inertia.form({
@@ -67,9 +82,23 @@ export default {
       }),
     }
   },
+  updated: function() {
+    //console.log(this.form.organization_id)
+  },
   methods: {
+    organizationChange(v) {
+      this.form.organization_id = v
+    },
+    countryChange(v) {
+      this.form.country = v
+    },
     store() {
-      this.form.post(this.route('contacts.store'))
+      //console.log(this.form)
+      this.form.post(this.route('contacts.store'), {
+        onSuccess: () => {
+          this.form.reset()
+        },
+      })
     },
   },
 }

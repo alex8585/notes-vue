@@ -14,6 +14,7 @@ class ContactsController extends Controller
 {
     public function index()
     {
+        //dd(Request::all());
         // $a = Auth::user()->account->contacts()
         //     ->with('organization', function ($q) {
         //         return $q->select(['id', 'name']);
@@ -34,8 +35,9 @@ class ContactsController extends Controller
                 ->with('organization', function ($q) {
                     return $q->select(['id', 'name']);
                 })
-                ->orderByName()
+                //->orderByName()
                 ->filter(Request::only('search', 'trashed'))
+                ->orderBy('id', 'desc')
                 ->paginate()
                 ->withQueryString()
                 ->through(function ($contact) {
@@ -100,7 +102,8 @@ class ContactsController extends Controller
             ])
         );
 
-        return Redirect::route('contacts')->with('success', 'Contact created.');
+        //return Redirect::route('contacts')->with('success', 'Contact created.');
+        return back()->with('success', 'Contact created.');
     }
 
     public function edit(Contact $contact)
@@ -109,9 +112,10 @@ class ContactsController extends Controller
             'contact' =>  new ContactResource($contact),
             'organizations' => Auth::user()->account->organizations()
                 ->orderBy('name')
+                ->select(['id', 'name'])
                 ->get()
-                ->map
-                ->only('id', 'name'),
+            // ->map
+            // ->only('id', 'name'),
         ]);
     }
 
@@ -134,7 +138,7 @@ class ContactsController extends Controller
             ])
         );
 
-        return Redirect::back()->with('success', 'Contact updated.');
+        return back()->with('success', 'Contact updated.');
     }
 
     public function destroy(Contact $contact)

@@ -64,7 +64,7 @@ export default {
   },
   remember: 'form',
   data() {
-    console.log(this.organizations);
+    console.log(this.organizations)
     return {
       form: this.$inertia.form({
         first_name: this.contact.first_name,
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     update() {
-      console.log('a');
+      //console.log('a')
       this.form.put(this.route('contacts.update', this.contact.id))
     },
     destroy() {

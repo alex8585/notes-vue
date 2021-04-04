@@ -1,7 +1,7 @@
 <template>
   <div>
     <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
-    <select :id="id" ref="input" v-model="selected" v-bind="$attrs" class="form-select" :class="{ error: error }">
+    <select :id="id" ref="input" :value="value" class="form-select" :class="{ error: error }" @change="$emit('change', $event.target.value)">
       <slot />
     </select>
     <div v-if="error" class="form-error">{{ error }}</div>
@@ -10,7 +10,6 @@
 
 <script>
 export default {
-  inheritAttrs: false,
   props: {
     id: {
       type: String,
@@ -23,15 +22,9 @@ export default {
     error: String,
   },
   data() {
-    return {
-      selected: this.value,
-    }
+    return {}
   },
-  watch: {
-    selected(selected) {
-      this.$emit('input', selected)
-    },
-  },
+
   methods: {
     focus() {
       this.$refs.input.focus()

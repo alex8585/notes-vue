@@ -24,6 +24,9 @@ export default {
     label: String,
     error: String,
   },
+  updated() {
+    //console.log(this.$attrs)
+  },
   methods: {
     focus() {
       this.$refs.input.focus()

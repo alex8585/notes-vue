@@ -69,5 +69,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.5"
     }
 }

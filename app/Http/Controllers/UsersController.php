@@ -78,11 +78,12 @@ class UsersController extends Controller
 
     public function update(User $user)
     {
+        //dd(ENV('APP_ENV'));
         if (App::environment('demo') && $user->isDemoUser()) {
             return Redirect::back()->with('error', 'Updating the demo user is not allowed.');
         }
 
-        Request::validate([
+        $data = Request::validate([
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
             'email' => ['required', 'max:50', 'email', Rule::unique('users')->ignore($user->id)],
@@ -91,6 +92,7 @@ class UsersController extends Controller
             'photo' => ['nullable', 'image'],
         ]);
 
+        dd($data['photo']->store('users'));
         $user->update(Request::only('first_name', 'last_name', 'email', 'owner'));
 
         if (Request::file('photo')) {
