@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <div :class="{ unselectable: isUnselectable }">
+    <Modal v-if="showModal" :x="150" @close="showModal = false" @dragEnd="isUnselectable = false" @dragStart="isUnselectable = true">
+      <h3 slot="header">custom header</h3>
+    </Modal>
+
     <h1 class="mb-8 font-bold text-3xl">Categories</h1>
     <div class="mb-6 flex justify-between items-center">
-      <inertia-link class="btn-indigo" :href="route('categories.create')">
+      <button class="btn-indigo" @click="showModal = true">
         <span>Create</span>
-        <span class="hidden md:inline">Category</span>
-      </inertia-link>
+        <span class="hidden md:inline">Note</span>
+      </button>
     </div>
     <div class="bg-white rounded-md shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
@@ -46,13 +50,18 @@ import Layout from '@/Shared/Layout'
 //import throttle from 'lodash/throttle'
 //import mapValues from 'lodash/mapValues'
 import Pagination from '@/Shared/Pagination'
+import Modal from '@/Shared/Modal'
 //import SearchFilter from '@/Shared/SearchFilter'
 
+import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
+import VueDraggableResizable from 'vue-draggable-resizable'
+import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
 export default {
   metaInfo: { title: 'Categories' },
   components: {
-    //Icon,
+    VueDraggableResizable,
     Pagination,
+    Modal,
   },
   layout: Layout,
   props: {
@@ -62,7 +71,18 @@ export default {
   },
 
   data() {
-    return {}
+    return {
+      isUnselectable: false,
+      showModal: false,
+      dialog: null,
+      enabled: true,
+      list: [
+        { name: 'John', id: 0 },
+        { name: 'Joao', id: 1 },
+        { name: 'Jean', id: 2 },
+      ],
+      dragging: true,
+    }
   },
 
   mounted: function() {
@@ -98,3 +118,14 @@ export default {
   },
 }
 </script>
+<style scoped>
+.unselectable {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+</style>

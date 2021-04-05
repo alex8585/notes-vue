@@ -1,19 +1,19 @@
 import Vue from 'vue'
-import VueMeta from 'vue-meta'
+//import VueMeta from 'vue-meta'
 import PortalVue from 'portal-vue'
 import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress/src'
-
-
+import A11yDialog from 'vue-a11y-dialog'
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 Vue.config.productionTip = false
 
-
 Vue.mixin({ methods: { route: window.route } })
 Vue.use(plugin)
 Vue.use(PortalVue)
-Vue.use(VueMeta)
+Vue.use(A11yDialog)
+
+//Vue.use(VueMeta)
 
 InertiaProgress.init()
 
