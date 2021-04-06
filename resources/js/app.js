@@ -3,7 +3,6 @@ import Vue from 'vue'
 import PortalVue from 'portal-vue'
 import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress/src'
-import A11yDialog from 'vue-a11y-dialog'
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 Vue.config.productionTip = false
@@ -11,7 +10,6 @@ Vue.config.productionTip = false
 Vue.mixin({ methods: { route: window.route } })
 Vue.use(plugin)
 Vue.use(PortalVue)
-Vue.use(A11yDialog)
 
 //Vue.use(VueMeta)
 

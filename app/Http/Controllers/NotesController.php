@@ -112,7 +112,7 @@ class NotesController extends Controller
             $request->validated()
         );
 
-        return Redirect::route('notes')
+        return back()
             ->with('success', 'The note has created.');
     }
 

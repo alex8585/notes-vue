@@ -1,7 +1,9 @@
 .btn-indigo {
   @apply px-6 py-3 rounded bg-indigo-600 text-white text-sm leading-4 font-bold whitespace-nowrap hover:bg-orange-400 focus:bg-orange-400;
 }
-
+.btn-close {
+  @apply mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm;
+}
 .btn-spinner,
 .btn-spinner:after {
   border-radius: 50%;
@@ -29,3 +31,4 @@
     transform: rotate(360deg);
   }
 }
+

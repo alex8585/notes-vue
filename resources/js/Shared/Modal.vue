@@ -4,22 +4,23 @@
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
-            <div class="modal-header">
-              <slot name="header">
-                default header
-              </slot>
+            <div class="sm:flex sm:items-start">
+              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-900">
+                  <slot name="header">
+                    Default header
+                  </slot>
+                </h3>
+                <div class="">
+                  <slot name="body">
+                    Default body
+                  </slot>
+                </div>
+              </div>
             </div>
-
-            <div class="modal-body">
-              <slot name="body">
-                default body
-              </slot>
-            </div>
-
-            <div class="modal-footer">
+            <div class="flex flex-row-reverse">
               <slot name="footer">
-                default footer
-                <button class="modal-default-button" @click="$emit('close')">
+                <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="$emit('close')">
                   Close
                 </button>
               </slot>
@@ -58,13 +59,11 @@ export default {
 </script>
 <style scoped>
 .modal-mask {
-  position: fixed;
   z-index: 9998;
-  top: 0;
-  left: 0;
+
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+
   display: table;
   transition: opacity 0.3s ease;
 }
@@ -75,7 +74,7 @@ export default {
 }
 
 .modal-container {
-  width: 300px;
+  width: 600px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
