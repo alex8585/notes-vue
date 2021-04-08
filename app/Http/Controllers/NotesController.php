@@ -56,7 +56,7 @@ class NotesController extends Controller
         $sort = $request->sort ?? 'id';
 
         $notes = Auth::user()->notes()->with('category')
-            ->filter(Request::only('search', 'category_id'))
+            ->filter(Request::only('search', 'category_id', 'trashed'))
             ->sort($sort, $direction)
             ->paginate()->withQueryString();
 

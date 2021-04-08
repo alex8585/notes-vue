@@ -6,11 +6,13 @@ use DateTimeInterface;
 use App\Events\TestEvent;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Note extends Model
 {
     use HasFactory;
     use Notifiable;
+    use SoftDeletes;
 
     protected $dispatchesEvents = [
         'saved' => TestEvent::class,
@@ -56,6 +58,12 @@ class Note extends Model
             $query->whereHas('category', function ($query) use ($category_id) {
                 $query->where('id', $category_id);
             });
+        })->when($filters['trashed'] ?? null, function ($query, $trashed) {
+            if ($trashed === 'with') {
+                $query->withTrashed();
+            } elseif ($trashed === 'only') {
+                $query->onlyTrashed();
+            }
         });
     }
 
