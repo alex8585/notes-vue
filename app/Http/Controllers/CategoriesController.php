@@ -30,6 +30,16 @@ class CategoriesController extends Controller
         // \App\Models\Category::factory()->count(100)->create();
         // \App\Models\Note::factory()->count(100)->create();
         //die;
+
+        // $categories = Auth::user()->categories()->sort($sort, $direction)
+        //     ->get()->map(function ($e) {
+        //         $e->subrow = json_decode($e->subrow);
+        //         return $e;
+        //     })
+
+        //     ->toArray();
+        // dd($categories);
+
         $categories = Auth::user()->categories()->sort($sort, $direction)->paginate()->appends(Request::all());
         return Inertia::render(
             'Categories/Index',

@@ -6,6 +6,7 @@ use League\Glide\Server;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
+use \ccxt\binance as BinanceApi;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(BinanceApi::class, function ($app) {
+
+            return new BinanceApi([
+                'apiKey' => env('BIN_API_KEY'),
+                'secret' => env('BIN_API_SECRET'),
+                'enableRateLimit' => true,
+            ]);
+        });
+
+
         $this->app->bind(Server::class, function ($app) {
             return Server::create([
                 'source' => Storage::getDriver(),

@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
-use App\Models\Test;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Media;
 use App\Utils\Binance;
-use App\Models\Taggable;
-use App\Models\Market;
 
-class DashboardController extends Controller
+
+class TerminalController extends Controller
 {
     public function index(Binance $binance)
     {
@@ -31,12 +28,6 @@ class DashboardController extends Controller
         $markets =  $binance->getMarketsWithLeverage();
 
 
-        //dd($binance->describe());
-
-
-
-
-
-        return Inertia::render('Dashboard/Index.vue', ['markets' => $markets]);
+        return inertia('Terminal/Index', ['markets' => $markets]);
     }
 }

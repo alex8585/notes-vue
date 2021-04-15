@@ -32,6 +32,7 @@ Vue.mixin({ methods: { route: window.route } })
 Vue.use(plugin)
 Vue.use(PortalVue)
 Vue.use(store)
+Vue.use(require('vue-moment'))
 
 window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = vm.constructor
 Vue.config.devtools = process.env.NODE_ENV === 'development'

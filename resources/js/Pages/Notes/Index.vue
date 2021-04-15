@@ -53,7 +53,7 @@
     </Modal>
 
     <h1 class="mb-8 font-bold text-3xl">Categories</h1>
-
+    <!-- <div>{{ new Date() | moment('YYYY') }}</div> -->
     <div class="mb-6 flex justify-between items-center">
       <button class="btn-indigo" @click="$store.dispatch('notes/setShowModalCreate', true)">
         <span>Create</span>

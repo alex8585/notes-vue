@@ -14,7 +14,7 @@ class ContactsController extends Controller
 {
     public function index()
     {
-        //dd(Request::all());
+        // dd(Request::all());
         // $a = Auth::user()->account->contacts()
         //     ->with('organization', function ($q) {
         //         return $q->select(['id', 'name']);

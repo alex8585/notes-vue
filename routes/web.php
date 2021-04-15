@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\ContactsController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ImagesController;
-use App\Http\Controllers\OrganizationsController;
-use App\Http\Controllers\ReportsController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\NotesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NotesController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\TerminalController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrganizationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     // Dashboard
     //Route::get('/')->name('dashboard')->uses('DashboardController');
+
+
+    Route::get('terminal', [TerminalController::class, 'index'])->name('terminal');
 
 
     // Categories
