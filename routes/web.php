@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('terminal', [TerminalController::class, 'index'])->name('terminal');
+    Route::get('get-last-price/{id}', [TerminalController::class, 'getLastPrice'])->name('get_last_price');
 
 
     // Categories

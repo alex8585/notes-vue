@@ -41,7 +41,12 @@ class Binance
         return $returnArr;
     }
 
-
+    public function getSymbolByID($id)
+    {
+        return current(array_filter($this->markets, function ($element) use ($id) {
+            return $element['id'] == $id;
+        }));
+    }
 
     public function http_get($urlPart, $apiVersion = 1, $params = [])
     {
@@ -55,6 +60,7 @@ class Binance
 
         $singArr = $this->api->sign($urlPart, $typeStr, 'GET', $params);
         $url =  $singArr['url'];
+
         // $qs = http_build_query($params);
         // $url = "{$baseUrl}?{$qs}";
         // $signature = hash_hmac('sha256',  $qs, env('BIN_API_SECRET'));
@@ -70,8 +76,16 @@ class Binance
                 'headers' => $singArr['headers']
             ]
         );
-        //dd($res);
+
         $response =  json_decode($res->getBody());
+
+        return $response;
+    }
+
+    public function getLastPrice($params = [])
+    {
+
+        $response = $this->http_get('premiumIndex', 1, $params);
         return $response;
     }
 

@@ -28,6 +28,29 @@ class TerminalController extends Controller
         $markets =  $binance->getMarketsWithLeverage();
 
 
+
+
         return inertia('Terminal/Index', ['markets' => $markets]);
+    }
+
+    public function getLastPrice(Binance $binance, $id)
+    {
+
+        //get-last-price/ETHUSDT
+        $symbol =  $binance->getSymbolByID($id)['symbol'] ?? null;
+
+        $price = $binance->getLastPrice(['symbol' => $id]);
+
+
+        $price->symbol =  $symbol;
+        $price->id =  $id;
+        return response()->json($price);
+        // return array($price);
+
+
+        //dump($binance->markets);
+        //dd($sumbol);
+        //        
+        //return $r;
     }
 }
