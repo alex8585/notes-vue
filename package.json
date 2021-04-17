@@ -35,6 +35,8 @@
         "vuex": "^3.6.2"
     },
     "devDependencies": {
-        "@vue/devtools": "*"
+        "@vue/devtools": "*",
+        "laravel-echo": "^1.10.0",
+        "pusher-js": "^7.0.3"
     }
 }

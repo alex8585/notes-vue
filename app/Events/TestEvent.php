@@ -15,7 +15,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TestEvent
+class TestEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $note;
@@ -29,6 +29,16 @@ class TestEvent
         //Storage::put('1112.txt', '1111');
         //dd($note);
         $this->note = $note;
-        // Log::channel('app')->info('TestEvent1!');
     }
+
+    public function broadcastOn()
+    {
+        Log::info('TestEvent1!');
+        return new Channel('chat');
+        //return new PresenceChannel('chat');
+    }
+    // public function broadcastAs()
+    // {
+    //     return 'TestEvent';
+    // }
 }

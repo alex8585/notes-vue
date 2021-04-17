@@ -5,11 +5,30 @@ import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress/src'
 import store from './store'
 import './register-components.js'
+
+//import Echo from 'laravel-echo'
+//window.Pusher = require('pusher-js')
 //Vue.use(VueMeta)
 
 InertiaProgress.init()
 
 const el = document.getElementById('app')
+
+//console.log(process.env.MIX_PUSHER_APP_KEY)
+
+// window.Echo = new Echo({
+//   broadcaster: 'pusher',
+//   key: '6673f5e00bb33e0a31c7',
+//   wsHost: window.location.hostname,
+//   wsPort: 6001,
+//   forceTLS: false,
+//   encrypted: false,
+//   disableStats: true,
+// })
+// window.Echo.private('chat').listen('TestEvent', e => {
+//   console.log('e.order')
+// })
+// console.log('11')
 
 const vm = new Vue({
   metaInfo: {

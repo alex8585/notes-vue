@@ -114,7 +114,8 @@ import Layout from '@/Shared/Layout'
 import { mapGetters, mapActions } from 'vuex'
 //import SelectInput from '@/Shared/SelectInput'
 import { VueEditor } from 'vue2-editor'
-
+import Echo from 'laravel-echo'
+window.Pusher = require('pusher-js')
 //import SearchFilter from '@/Shared/SearchFilter'
 export default {
   metaInfo: { title: 'Categories' },
@@ -149,7 +150,19 @@ export default {
   },
   computed: mapGetters('notes', ['form', 'editForm', 'filterForm', 'showModalEdit', 'isUnselectable', 'showModalCreate']),
   mounted: function() {
-    //console.log(this.defaultDirection)
+    let echo = new Echo({
+      broadcaster: 'pusher',
+      key: '6673f5e00bb33e0a31c7',
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      forceTLS: false,
+      encrypted: false,
+      disableStats: true,
+    })
+    echo.channel('chat').listen('TestEvent', e => {
+      console.log('e.order')
+    })
+    console.log('22')
   },
   methods: {
     ...mapActions('notes', ['store', 'update', 'setShowModalCreate', 'setUnselectable', 'setShowModalEdit', 'editNote', 'filterChange', 'sortHanle']),

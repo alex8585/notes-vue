@@ -102,6 +102,7 @@ export default {
       console.log(this.currentSymbol.price)
     }
   },
+  created() {},
   methods: {
     ...mapActions('terminal', ['setCurrentSymbol', 'setLeverage']),
   },

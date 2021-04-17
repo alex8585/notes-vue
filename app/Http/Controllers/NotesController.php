@@ -12,6 +12,7 @@ use App\Models\Category;
 
 
 use League\Glide\Server;
+use App\Events\TestEvent;
 use App\Mail\OrderShipped;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -157,7 +158,7 @@ class NotesController extends Controller
         // if (!$response->allowed()) {
         //     return back()->with('error', $response->message());
         // }
-
+        broadcast(new TestEvent($note));
         $note->update(
             $request->validated()
         );
