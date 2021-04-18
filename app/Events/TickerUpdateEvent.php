@@ -15,30 +15,23 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TestEvent implements ShouldBroadcast
+class TickerUpdateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $note;
+    public $symbol;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Note $note)
+    public function __construct(array $symbol)
     {
-        //Storage::put('1112.txt', '1111');
-        //dd($note);
-        $this->note = $note;
+        $this->symbol = $symbol;
     }
 
     public function broadcastOn()
     {
-        //Log::info('TestEvent1!');
-        return new Channel('chat');
-        //return new PresenceChannel('chat');
+        return new Channel('ticker.' .  $this->symbol['id']);
     }
-    // public function broadcastAs()
-    // {
-    //     return 'TestEvent';
-    // }
+    
 }

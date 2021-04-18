@@ -135,18 +135,7 @@ export default {
   },
 
   data() {
-    return {
-      // editForm: this.$inertia.form({
-      //   title: null,
-      //   category_id: null,
-      //   body: null,
-      // }),
-      // form: this.$inertia.form({
-      //   title: null,
-      //   category_id: null,
-      //   body: null,
-      // }),
-    }
+    return {}
   },
   computed: mapGetters('notes', ['form', 'editForm', 'filterForm', 'showModalEdit', 'isUnselectable', 'showModalCreate']),
   mounted: function() {
@@ -160,7 +149,7 @@ export default {
       disableStats: true,
     })
     echo.channel('chat').listen('TestEvent', e => {
-      console.log('e.order')
+      console.log(e)
     })
     console.log('22')
   },

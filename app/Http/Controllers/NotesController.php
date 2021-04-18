@@ -158,7 +158,7 @@ class NotesController extends Controller
         // if (!$response->allowed()) {
         //     return back()->with('error', $response->message());
         // }
-        broadcast(new TestEvent($note));
+        //broadcast(new TestEvent($note));
         $note->update(
             $request->validated()
         );

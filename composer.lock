@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d872ff3c25e547000e2bb328ed2b1cce",
+    "content-hash": "78073a3fa84bed873a2a230f2c7d2742",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2957,6 +2957,57 @@
             "time": "2021-01-18T20:58:21+00:00"
         },
         {
+            "name": "linwj/binance",
+            "version": "2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zhouaini528/binance-php.git",
+                "reference": "31d38b6ac6698a50680e262fc2e32d44c07732a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zhouaini528/binance-php/zipball/31d38b6ac6698a50680e262fc2e32d44c07732a8",
+                "reference": "31d38b6ac6698a50680e262fc2e32d44c07732a8",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "*",
+                "php": ">=7.0",
+                "workerman/globaldata": "*",
+                "workerman/workerman": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lin\\Binance\\": "./src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "linwenjun",
+                    "email": "465382251@qq.com"
+                }
+            ],
+            "description": "Binance API Like the official document interface, Support for arbitrary extension.",
+            "keywords": [
+                "BitMEX",
+                "Huobi",
+                "OKEX",
+                "binance",
+                "kucoin",
+                "kumex"
+            ],
+            "support": {
+                "issues": "https://github.com/zhouaini528/binance-php/issues",
+                "source": "https://github.com/zhouaini528/binance-php/tree/2.0.7"
+            },
+            "time": "2021-04-08T02:08:29+00:00"
+        },
+        {
             "name": "mockery/mockery",
             "version": "1.4.3",
             "source": {
@@ -5155,6 +5206,59 @@
                 }
             ],
             "time": "2020-08-18T17:17:46+00:00"
+        },
+        {
+            "name": "ratchet/pawl",
+            "version": "v0.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ratchetphp/Pawl.git",
+                "reference": "89ec703c76dc893484a2a0ed44b48a37d445abd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ratchetphp/Pawl/zipball/89ec703c76dc893484a2a0ed44b48a37d445abd5",
+                "reference": "89ec703c76dc893484a2a0ed44b48a37d445abd5",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0 || ^2.0",
+                "php": ">=5.4",
+                "ratchet/rfc6455": "^0.3",
+                "react/socket": "^1.0 || ^0.8 || ^0.7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "reactivex/rxphp": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ratchet\\Client\\": "src"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Asynchronous WebSocket client",
+            "keywords": [
+                "Ratchet",
+                "async",
+                "client",
+                "websocket",
+                "websocket client"
+            ],
+            "support": {
+                "issues": "https://github.com/ratchetphp/Pawl/issues",
+                "source": "https://github.com/ratchetphp/Pawl/tree/master"
+            },
+            "time": "2020-07-17T15:32:47+00:00"
         },
         {
             "name": "ratchet/rfc6455",
@@ -9583,6 +9687,93 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "workerman/globaldata",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/GlobalData.git",
+                "reference": "baf3b7af338f329e88136ebe92266dfe40dd00a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/GlobalData/zipball/baf3b7af338f329e88136ebe92266dfe40dd00a7",
+                "reference": "baf3b7af338f329e88136ebe92266dfe40dd00a7",
+                "shasum": ""
+            },
+            "require": {
+                "workerman/workerman": ">=3.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GlobalData\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "homepage": "http://www.workerman.net",
+            "support": {
+                "issues": "https://github.com/walkor/GlobalData/issues",
+                "source": "https://github.com/walkor/GlobalData/tree/v1.0.3"
+            },
+            "time": "2018-08-16T03:59:34+00:00"
+        },
+        {
+            "name": "workerman/workerman",
+            "version": "v4.0.19",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/Workerman.git",
+                "reference": "af6025976fba817eeb4d5fbf8d0c1059a5819da3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/af6025976fba817eeb4d5fbf8d0c1059a5819da3",
+                "reference": "af6025976fba817eeb4d5fbf8d0c1059a5819da3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "suggest": {
+                "ext-event": "For better performance. "
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Workerman\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "walkor",
+                    "email": "walkor@workerman.net",
+                    "homepage": "http://www.workerman.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
+            "homepage": "http://www.workerman.net",
+            "keywords": [
+                "asynchronous",
+                "event-loop"
+            ],
+            "support": {
+                "email": "walkor@workerman.net",
+                "forum": "http://wenda.workerman.net/",
+                "issues": "https://github.com/walkor/workerman/issues",
+                "source": "https://github.com/walkor/workerman",
+                "wiki": "http://doc.workerman.net/"
+            },
+            "time": "2021-03-05T06:44:28+00:00"
         }
     ],
     "packages-dev": [

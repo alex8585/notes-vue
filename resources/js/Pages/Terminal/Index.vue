@@ -4,10 +4,10 @@
 
     <form>
       <div class="pt-8 -mr-0 -mb-8 flex flex-wrap">
-        <select-input v-model="symbolsForm.symbol" :error="symbolsForm.errors.symbol" class="pr-6 pb-8 w-full lg:w-1/3" label="Пара" @change="$store.dispatch('terminal/setCurrentSymbol', markets[$event])">
+        <select-input v-cloak v-model="symbolsForm.symbol" :error="symbolsForm.errors.symbol" class="pr-6 pb-8 w-full lg:w-1/3" label="Пара" @change="setCurrentSymbolHandler($event)">
           <option v-for="market in markets" :key="market.id" :value="market.symbol">{{ market.symbol }}</option>
         </select-input>
-        <select-input v-if="currentSymbol" v-model="symbolsForm.leverage" :error="symbolsForm.errors.leverage" class="pr-6 pb-8 w-full lg:w-1/3" label="Плечо" @change="$store.dispatch('terminal/setLeverage', $event)">
+        <select-input v-cloak v-if="currentSymbol" v-model="symbolsForm.leverage" :error="symbolsForm.errors.leverage" class="pr-6 pb-8 w-full lg:w-1/3" label="Плечо" @change="$store.dispatch('terminal/setLeverage', $event)">
           <option v-for="l in currentSymbol.leverage" :key="l" :value="l">{{ l }}</option>
         </select-input>
 
@@ -16,9 +16,9 @@
         </div>
       </div>
     </form>
+    <Price :str-symbol="symbolsForm.symbol" :markets="markets" />
     <div class="flex flex-wrap ">
       <form class="lg:w-1/2">
-        <div class="mt-10 text-lg font-bold">Купить / {{ currentSymbol ? parseFloat(currentSymbol.price.markPrice).toFixed(4) : '' }} $</div>
         <div class="pt-8 -mr-0 -mb-8 flex flex-wrap ">
           <text-input v-model="buyForm.quantity" :error="buyForm.errors.quantity" class="pr-6 pb-8 w-full " label="Количество USDT" />
           <text-input v-model="buyForm.stop1" :error="buyForm.errors.stop1" class="pr-6 pb-8 w-full lg:w-1/2" label="Stop Loss 1" />
@@ -34,7 +34,6 @@
       </form>
 
       <form class="lg:w-1/2">
-        <div class="mt-10 text-lg font-bold">Продать / {{ currentSymbol ? parseFloat(currentSymbol.price.indexPrice).toFixed(4) : '' }} $</div>
         <div class="pt-8 -mr-0 -mb-8 flex flex-wrap ">
           <text-input v-model="sellForm.quantity" :error="sellForm.errors.quantity" class="pr-6 pb-8 w-full " label="Количество USDT" />
           <text-input v-model="sellForm.stop1" :error="sellForm.errors.stop1" class="pr-6 pb-8 w-full lg:w-1/2" label="Stop Loss 1" />
@@ -57,11 +56,14 @@ import Layout from '@/Shared/Layout'
 import TextInput from '@/Shared/TextInput'
 import SelectInput from '@/Shared/SelectInput'
 import LoadingButton from '@/Shared/LoadingButton'
+import Price from '@/Shared/Price'
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
   metaInfo: { title: 'Terminal' },
 
   components: {
+    Price,
     LoadingButton,
     SelectInput,
     TextInput,
@@ -73,6 +75,11 @@ export default {
 
   data() {
     return {
+      price: null,
+      // symbolsForm: this.$inertia.form({
+      //   symbol: 'BTC/USDT',
+      //   leverage: null,
+      // }),
       buyForm: this.$inertia.form({
         quantity: null,
         stop1: null,
@@ -93,18 +100,30 @@ export default {
       }),
     }
   },
-  computed: mapGetters('terminal', ['symbolsForm', 'currentSymbol']),
+  computed: mapGetters('terminal', ['currentSymbol', 'symbolsForm']),
   mounted: function() {
-    this.$store.dispatch('terminal/setCurrentSymbol', this.markets[this.symbolsForm.symbol])
+    let symbol = this.markets[this.symbolsForm.symbol]
+
+    //this.subscribeChannel(symbol)
+    this.$store.dispatch('terminal/setCurrentSymbol', symbol)
   },
   updated: function() {
     if (this.currentSymbol) {
-      console.log(this.currentSymbol.price)
+      //console.log('2')
     }
   },
   created() {},
   methods: {
-    ...mapActions('terminal', ['setCurrentSymbol', 'setLeverage']),
+    ...mapActions('terminal', ['setCurrentSymbol', 'setLeverage', 'setPrice']),
+    setCurrentSymbolHandler: function($event) {
+      // let oldSymbol = this.markets[this.symbolsForm.symbol]
+      // this.unsubscribeChannel(oldSymbol)
+
+      let symbol = this.markets[$event]
+      //this.subscribeChannel(symbol)
+
+      this.$store.dispatch('terminal/setCurrentSymbol', symbol)
+    },
   },
 }
 </script>

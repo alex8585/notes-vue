@@ -4,6 +4,7 @@ namespace App\Utils;
 
 use \ccxt\binance as BinanceApi;
 use App\Models\Market;
+use \Ratchet\Client as wsClient;
 
 class Binance
 {
@@ -46,6 +47,75 @@ class Binance
         return current(array_filter($this->markets, function ($element) use ($id) {
             return $element['id'] == $id;
         }));
+    }
+
+    // public function getSteam()
+    // {
+    //     $singArr = $this->api->sign('markPrice', 'userDataStream', 'GET', $params = []);
+    // }
+
+    // public function ticker($symbol, callable $callback)
+    // {
+    //     $this->stream = 'wss://stream.binance.com:9443/ws/';
+    //     $endpoint = $symbol ? strtolower($symbol) . '@ticker' : '!ticker@arr';
+
+
+    //     // @codeCoverageIgnoreStart
+    //     // phpunit can't cover async function
+    //     wsClient\connect($this->stream . $endpoint)->then(function ($ws) use ($callback, $symbol, $endpoint) {
+    //         $ws->on('message', function ($data) use ($ws, $callback, $symbol, $endpoint) {
+
+
+    //             $json = json_decode($data);
+    //             if ($symbol) {
+    //                 call_user_func($callback, $this, $symbol, $this->bookTickerConvert($json));
+    //             } else {
+    //                 foreach ($json as $obj) {
+    //                     $return = $this->bookTickerConvert($obj);
+    //                     $symbol = $return['symbol'];
+    //                     call_user_func($callback, $this, $symbol, $return);
+    //                 }
+    //             }
+    //         });
+    //         $ws->on('close', function ($code = null, $reason = null) {
+    //             // WPCS: XSS OK.
+    //             echo "ticker: WebSocket Connection closed! ({$code} - {$reason})" . PHP_EOL;
+    //         });
+    //     }, function ($e) {
+    //         // WPCS: XSS OK.
+    //         echo "ticker: Could not connect: {$e->getMessage()}" . PHP_EOL;
+    //     });
+    //     // @codeCoverageIgnoreEnd
+    // }
+
+    public function streamSocket($endpoint, callable $callback)
+    {
+        wsClient\connect($endpoint)->then(function ($ws) use ($callback) {
+            $ws->on('message', function ($data) use ($ws, $callback) {
+                $json = json_decode($data);
+                call_user_func($callback, $json);
+            });
+            $ws->on('close', function ($code = null, $reason = null) use ($callback) {
+                echo "Connection closed ({$code} - {$reason})\n";
+
+                //in 3 seconds the app will reconnect
+                // $loop->addTimer(3, function () use ($connector, $loop, $app) {
+                //     connectToServer($connector, $loop, $app);
+                // });
+            });
+        }, function ($e) {
+            echo "ticker: Could not connect: {$e->getMessage()}" . PHP_EOL;
+        });
+    }
+
+
+    public function bookTickerConvert($obj)
+    {
+        return [
+            'id' => $obj->s,
+            'bid' => $obj->b,
+            'ask' => $obj->a,
+        ];
     }
 
     public function http_get($urlPart, $apiVersion = 1, $params = [])
