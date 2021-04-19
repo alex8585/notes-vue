@@ -1,47 +1,48 @@
 <template>
-  <div @setCurrentSymbolHandler="setCurrentSymbolHandler()">
-    <span class="mt-10 text-lg font-bold">Купить / {{ price ? parseFloat(price.bid).toFixed(4) : '' }} $</span>
-    <span class="mt-10 text-lg font-bold">Продать / {{ price ? parseFloat(price.ask).toFixed(4) : '' }} $</span>
+  <div class="pt-8 -mr-0 -mb-8 flex flex-wrap" @setCurrentSymbolHandler="setCurrentSymbolHandler()">
+    <span class="mt-10 text-lg font-bold pr-6 pb-8 w-full lg:w-1/2">Купить / {{ price ? parseFloat(price.ask).toFixed(4) : '' }} $</span>
+    <span class="mt-10 text-lg font-bold pr-6 pb-8 w-full lg:w-1/2">Продать / {{ price ? parseFloat(price.bid).toFixed(4) : '' }} $</span>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     strSymbol: String,
-
     markets: Object,
   },
   data() {
     return {
-      price: '',
       oldStrSymbol: null,
     }
   },
+  computed: mapGetters('terminal', ['price']),
   watch: {
     strSymbol() {
-      console.log('2')
       this.unsubscribeChannel()
       this.subscribeChannel(this.strSymbol)
     },
   },
   mounted() {
-    console.log('1')
     this.subscribeChannel(this.strSymbol)
   },
 
   methods: {
+    ...mapActions('terminal', ['setPrice']),
     subscribeChannel(strSymbol) {
       let symbol = this.markets[strSymbol]
+      let $store = this.$store
       window.echo.channel(`ticker.${symbol.id}`).listen('TickerUpdateEvent', e => {
-        this.price = e.symbol
-        //$store.dispatch('terminal/setPrice', e.symbol)
+        $store.dispatch('terminal/setPrice', e.symbol)
       })
       this.oldStrSymbol = strSymbol
     },
     unsubscribeChannel() {
-      let symbol = this.markets[this.oldStrSymbol]
-      window.echo.leave(`ticker.${symbol.id}`)
+      if (this.oldStrSymbol) {
+        let symbol = this.markets[this.oldStrSymbol]
+        window.echo.leave(`ticker.${symbol.id}`)
+      }
     },
     setCurrentSymbolHandler: function() {},
   },

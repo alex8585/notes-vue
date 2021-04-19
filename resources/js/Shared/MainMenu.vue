@@ -43,6 +43,12 @@
         <div :class="isUrl('terminal') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Terminal</div>
       </inertia-link>
     </div>
+    <div class="mb-4">
+      <inertia-link class="flex items-center group py-3" :href="route('terminal.orders')">
+        <icon name="printer" class="w-4 h-4 mr-2" :class="isUrl('orders') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'" />
+        <div :class="isUrl('orders') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Orders</div>
+      </inertia-link>
+    </div>
   </div>
 </template>
 

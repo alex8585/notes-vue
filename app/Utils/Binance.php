@@ -49,45 +49,6 @@ class Binance
         }));
     }
 
-    // public function getSteam()
-    // {
-    //     $singArr = $this->api->sign('markPrice', 'userDataStream', 'GET', $params = []);
-    // }
-
-    // public function ticker($symbol, callable $callback)
-    // {
-    //     $this->stream = 'wss://stream.binance.com:9443/ws/';
-    //     $endpoint = $symbol ? strtolower($symbol) . '@ticker' : '!ticker@arr';
-
-
-    //     // @codeCoverageIgnoreStart
-    //     // phpunit can't cover async function
-    //     wsClient\connect($this->stream . $endpoint)->then(function ($ws) use ($callback, $symbol, $endpoint) {
-    //         $ws->on('message', function ($data) use ($ws, $callback, $symbol, $endpoint) {
-
-
-    //             $json = json_decode($data);
-    //             if ($symbol) {
-    //                 call_user_func($callback, $this, $symbol, $this->bookTickerConvert($json));
-    //             } else {
-    //                 foreach ($json as $obj) {
-    //                     $return = $this->bookTickerConvert($obj);
-    //                     $symbol = $return['symbol'];
-    //                     call_user_func($callback, $this, $symbol, $return);
-    //                 }
-    //             }
-    //         });
-    //         $ws->on('close', function ($code = null, $reason = null) {
-    //             // WPCS: XSS OK.
-    //             echo "ticker: WebSocket Connection closed! ({$code} - {$reason})" . PHP_EOL;
-    //         });
-    //     }, function ($e) {
-    //         // WPCS: XSS OK.
-    //         echo "ticker: Could not connect: {$e->getMessage()}" . PHP_EOL;
-    //     });
-    //     // @codeCoverageIgnoreEnd
-    // }
-
     public function streamSocket($endpoint, callable $callback)
     {
         wsClient\connect($endpoint)->then(function ($ws) use ($callback) {
@@ -109,8 +70,32 @@ class Binance
     }
 
 
+
+    public function webSocketLoop($endpoint, callable $callback)
+    {
+        $client = new \WebSocket\Client($endpoint);
+        while (true) {
+            try {
+                $data = $client->receive();
+                $json = json_decode($data);
+                call_user_func($callback, $json);
+            } catch (\WebSocket\ConnectionException $e) {
+                if ($e->getCode() != 1025) {
+                    dump($e);
+                }
+            }
+        }
+        $client->close();
+    }
+
+
+
+
     public function bookTickerConvert($obj)
     {
+        if (!isset($obj)) {
+            return null;
+        }
         return [
             'id' => $obj->s,
             'bid' => $obj->b,

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Utils\Binance;
+
 use Illuminate\Console\Command;
 use App\Events\TickerUpdateEvent;
 use Lin\Binance\BinanceWebSocket;
@@ -42,9 +43,11 @@ class priceStream extends Command
     {
         $cb = function ($return) use ($binance) {
             $symbol = $binance->bookTickerConvert($return);
-            //dump($symbol);
-            broadcast(new TickerUpdateEvent($symbol));
+            if ($symbol) {
+                broadcast(new TickerUpdateEvent($symbol));
+            }
         };
-        $binance->streamSocket('wss://fstream.binance.com/ws/!bookTicker',  $cb);
+        // $binance->streamSocket('wss://fstream.binance.com/ws/!bookTicker',  $cb);
+        $binance->webSocketLoop('wss://fstream.binance.com/ws/!bookTicker',  $cb);
     }
 }
