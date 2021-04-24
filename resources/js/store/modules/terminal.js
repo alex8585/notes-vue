@@ -13,8 +13,10 @@ const state = {
     leverage: null,
   }),
   buyForm: Form({
-    direction: 'buy',
+    side: 'buy',
     symbol: null,
+    cur_price: null,
+    leverage: null,
     quantity: null,
     stop1: null,
     stop2: null,
@@ -24,8 +26,10 @@ const state = {
     take_price: null,
   }),
   sellForm: Form({
-    direction: 'sell',
+    side: 'sell',
     symbol: null,
+    cur_price: null,
+    leverage: null,
     quantity: null,
     stop1: null,
     stop2: null,
@@ -64,7 +68,10 @@ const actions = {
     // axios.get(`get-last-price/${v.id}`).then(response => {
     //   commit('SET_PRICE', v)
     // })
+    //console.log(state.price.ask)
     state.buyForm.symbol = state.currentSymbol.symbol
+    state.buyForm.cur_price = state.price.ask
+    state.buyForm.leverage = state.symbolsForm.leverage
     state.buyForm.post(route('terminal.create_order'), {
       replace: false,
       preserveState: true,
@@ -75,6 +82,8 @@ const actions = {
   },
   sendSellForm: ({ commit }, v) => {
     state.sellForm.symbol = state.currentSymbol.symbol
+    state.sellForm.cur_price = state.price.bid
+    state.sellForm.leverage = state.symbolsForm.leverage
     state.sellForm.post(route('terminal.create_order'), {
       replace: false,
       preserveState: true,

@@ -88,8 +88,17 @@ class Binance
         $client->close();
     }
 
-
-
+    public function placeMarketOrder($symbol, $side, $amount, $params = [])
+    {
+        $type = 'MARKET';
+        $params['type'] = 'future';
+        return $this->create_order($symbol, $type, $side, $amount, null, $params);
+    }
+    public function placeLeverage($symbol, $leverage)
+    {
+        $symbolId = str_replace("/", "",  $symbol);
+        return $this->setLeverage($symbolId, $leverage);
+    }
 
     public function bookTickerConvert($obj)
     {
@@ -105,8 +114,6 @@ class Binance
 
     public function http_get($urlPart, $apiVersion = 1, $params = [])
     {
-        //$apiUrl = config('settings.binance.api_url');
-        // $baseUrl = "{$apiUrl}v3/{$endpoint}";
 
         $typeStr = 'fapiPrivate';
         if ($apiVersion == '2') {
@@ -116,18 +123,37 @@ class Binance
         $singArr = $this->api->sign($urlPart, $typeStr, 'GET', $params);
         $url =  $singArr['url'];
 
-        // $qs = http_build_query($params);
-        // $url = "{$baseUrl}?{$qs}";
-        // $signature = hash_hmac('sha256',  $qs, env('BIN_API_SECRET'));
-        // $qs = http_build_query(array_merge($params, ['signature' => $signature]));
-        // dd($qs);
+        $client = new \GuzzleHttp\Client(['http_errors' => false]);
+        $res = $client->request(
+            $singArr['method'],
+            $url,
+            [
+                'headers' => $singArr['headers']
+            ]
+        );
 
+        $response =  json_decode($res->getBody());
+
+        return $response;
+    }
+
+    public function http_post($urlPart, $apiVersion = 1, $params = [])
+    {
+        $typeStr = 'fapiPrivate';
+        if ($apiVersion == '2') {
+            $typeStr = 'fapiPrivateV2';
+        }
+
+        $singArr = $this->api->sign($urlPart, $typeStr, 'POST', $params);
+        $url =  $singArr['url'];
+        //dd($singArr);
 
         $client = new \GuzzleHttp\Client(['http_errors' => false]);
         $res = $client->request(
-            'GET',
+            $singArr['method'],
             $url,
             [
+                'body' => $singArr['body'],
                 'headers' => $singArr['headers']
             ]
         );
@@ -141,6 +167,15 @@ class Binance
     {
 
         $response = $this->http_get('premiumIndex', 1, $params);
+        return $response;
+    }
+
+    public function setLeverage($symbol, $leverage,  $params = [])
+    {
+        $params['symbol'] = $symbol;
+        $params['leverage'] = $leverage;
+
+        $response = $this->http_post('leverage', 1, $params);
         return $response;
     }
 

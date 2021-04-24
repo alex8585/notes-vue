@@ -25,7 +25,9 @@ class OrderCreateRequest extends FormRequest
     {
         return [
             'symbol' => 'required',
-            'direction' => 'required',
+            'side' => 'required',
+            'cur_price' => 'required',
+            'leverage' => 'required',
             'quantity' => 'required|numeric',
             'stop1' => 'required|numeric',
             //'stop2' => 'required|boolean',

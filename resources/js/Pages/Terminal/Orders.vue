@@ -1,14 +1,6 @@
 <template>
   <div>
-    Orders
-    <!-- "symbol" => "BTC/USDT"
-  "direction" => "buy"
-  "quantity" => "5"
-  "stop1" => "5"
-  "take" => "5"
-  "stop1_price" => "54270.6595"
-  "take_price" => "59983.3605" -->
-
+    <h1 class="mb-8 font-bold text-3xl">Orders</h1>
     <div class="bg-white rounded-md shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
         <tr class="text-left font-bold">

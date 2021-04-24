@@ -1,7 +1,6 @@
 <template>
   <div>
-    Terminal
-
+    <h1 class="mb-8 font-bold text-3xl">Terminal</h1>
     <SymbolForm :str-symbol="symbolsForm.symbol" :markets="markets" />
     <Price :str-symbol="symbolsForm.symbol" :markets="markets" />
     <div class="flex flex-wrap ">

@@ -6,22 +6,10 @@ import { InertiaProgress } from '@inertiajs/progress/src'
 import store from './store'
 import './register-components.js'
 
-import Echo from 'laravel-echo'
-window.Pusher = require('pusher-js')
-//Vue.use(VueMeta)
 
 InertiaProgress.init()
 
 const el = document.getElementById('app')
-window.echo = new Echo({
-  broadcaster: 'pusher',
-  key: '6673f5e00bb33e0a31c7',
-  wsHost: window.location.hostname,
-  wsPort: 6001,
-  forceTLS: false,
-  encrypted: false,
-  disableStats: true,
-})
 
 const vm = new Vue({
   metaInfo: {

@@ -45,6 +45,7 @@ class priceStream extends Command
             $symbol = $binance->bookTickerConvert($return);
             if ($symbol) {
                 broadcast(new TickerUpdateEvent($symbol));
+                //dump($symbol);
             }
         };
         // $binance->streamSocket('wss://fstream.binance.com/ws/!bookTicker',  $cb);

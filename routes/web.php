@@ -27,10 +27,14 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     //Route::get('/')->name('dashboard')->uses('DashboardController');
 
-
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('terminal', [TerminalController::class, 'index'])->name('terminal');
     Route::post('create-order', [TerminalController::class, 'createOrder'])->name('terminal.create_order');
     Route::get('orders', [TerminalController::class, 'orders'])->name('terminal.orders');
+    Route::get('settings', [TerminalController::class, 'settings'])->name('terminal.settings');
+    Route::post('save-settings', [TerminalController::class, 'saveSettings'])->name('terminal.save-settings');
+
+
     //Route::get('get-last-price/{id}', [TerminalController::class, 'getLastPrice'])->name('get_last_price');
 
 

@@ -40,6 +40,8 @@ class CategoriesController extends Controller
         //     ->toArray();
         // dd($categories);
 
+        //dd(Auth::user());
+
         $categories = Auth::user()->categories()->sort($sort, $direction)->paginate()->appends(Request::all());
         return Inertia::render(
             'Categories/Index',

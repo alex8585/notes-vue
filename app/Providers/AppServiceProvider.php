@@ -24,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(BinanceApi::class, function ($app) {
 
             return new BinanceApi([
-                'apiKey' => env('BIN_API_KEY'),
-                'secret' => env('BIN_API_SECRET'),
+                'apiKey' => setting('binApiKey'),
+                'secret' => setting('binApiSecret'),
                 'enableRateLimit' => true,
             ]);
         });

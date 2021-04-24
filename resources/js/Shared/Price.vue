@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import Echo from 'laravel-echo'
+window.Pusher = require('pusher-js')
 import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
@@ -25,6 +27,16 @@ export default {
     },
   },
   mounted() {
+    this.echo = new Echo({
+      broadcaster: 'pusher',
+      key: process.env.MIX_PUSHER_APP_KEY,
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      forceTLS: false,
+      encrypted: false,
+      disableStats: true,
+    })
+
     this.subscribeChannel(this.strSymbol)
   },
 
@@ -33,7 +45,7 @@ export default {
     subscribeChannel(strSymbol) {
       let symbol = this.markets[strSymbol]
       let $store = this.$store
-      window.echo.channel(`ticker.${symbol.id}`).listen('TickerUpdateEvent', e => {
+      this.echo.channel(`ticker.${symbol.id}`).listen('TickerUpdateEvent', e => {
         $store.dispatch('terminal/setPrice', e.symbol)
       })
       this.oldStrSymbol = strSymbol
@@ -41,7 +53,7 @@ export default {
     unsubscribeChannel() {
       if (this.oldStrSymbol) {
         let symbol = this.markets[this.oldStrSymbol]
-        window.echo.leave(`ticker.${symbol.id}`)
+        this.echo.leave(`ticker.${symbol.id}`)
       }
     },
     setCurrentSymbolHandler: function() {},
