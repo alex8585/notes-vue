@@ -94,6 +94,12 @@ class Binance
         $params['type'] = 'future';
         return $this->create_order($symbol, $type, $side, $amount, null, $params);
     }
+    public function cancelOrder($id, $symbol, $params = [])
+    {
+        $params['type'] = 'future';
+
+        return $this->cancel_order($id, $symbol, $params);
+    }
     public function placeLeverage($symbol, $leverage)
     {
         $symbolId = str_replace("/", "",  $symbol);
@@ -102,6 +108,7 @@ class Binance
 
     public function bookTickerConvert($obj)
     {
+
         if (!isset($obj)) {
             return null;
         }
@@ -112,7 +119,7 @@ class Binance
         ];
     }
 
-    public function http_get($urlPart, $apiVersion = 1, $params = [])
+    public function httpRequest($urlPart, $apiVersion = 1, $method = 'GET', $params = [])
     {
 
         $typeStr = 'fapiPrivate';
@@ -120,7 +127,7 @@ class Binance
             $typeStr = 'fapiPrivateV2';
         }
 
-        $singArr = $this->api->sign($urlPart, $typeStr, 'GET', $params);
+        $singArr = $this->api->sign($urlPart, $typeStr, $method, $params);
         $url =  $singArr['url'];
 
         $client = new \GuzzleHttp\Client(['http_errors' => false]);
@@ -137,36 +144,35 @@ class Binance
         return $response;
     }
 
-    public function http_post($urlPart, $apiVersion = 1, $params = [])
-    {
-        $typeStr = 'fapiPrivate';
-        if ($apiVersion == '2') {
-            $typeStr = 'fapiPrivateV2';
-        }
+    // public function http_post($urlPart, $apiVersion = 1, $params = [])
+    // {
+    //     $typeStr = 'fapiPrivate';
+    //     if ($apiVersion == '2') {
+    //         $typeStr = 'fapiPrivateV2';
+    //     }
 
-        $singArr = $this->api->sign($urlPart, $typeStr, 'POST', $params);
-        $url =  $singArr['url'];
-        //dd($singArr);
+    //     $singArr = $this->api->sign($urlPart, $typeStr, 'POST', $params);
+    //     $url =  $singArr['url'];
+    //     //dd($singArr);
 
-        $client = new \GuzzleHttp\Client(['http_errors' => false]);
-        $res = $client->request(
-            $singArr['method'],
-            $url,
-            [
-                'body' => $singArr['body'],
-                'headers' => $singArr['headers']
-            ]
-        );
+    //     $client = new \GuzzleHttp\Client(['http_errors' => false]);
+    //     $res = $client->request(
+    //         $singArr['method'],
+    //         $url,
+    //         [
+    //             'body' => $singArr['body'],
+    //             'headers' => $singArr['headers']
+    //         ]
+    //     );
 
-        $response =  json_decode($res->getBody());
+    //     $response =  json_decode($res->getBody());
 
-        return $response;
-    }
+    //     return $response;
+    // }
 
     public function getLastPrice($params = [])
     {
-
-        $response = $this->http_get('premiumIndex', 1, $params);
+        $response = $this->httpRequest('premiumIndex', 1, "GET", $params);
         return $response;
     }
 
@@ -175,7 +181,7 @@ class Binance
         $params['symbol'] = $symbol;
         $params['leverage'] = $leverage;
 
-        $response = $this->http_post('leverage', 1, $params);
+        $response = $this->httpRequest('leverage', 1, 'POST', $params);
         return $response;
     }
 
@@ -204,5 +210,51 @@ class Binance
     public function __call($function_name, $arguments)
     {
         return $this->api->{$function_name}(...$arguments);
+    }
+
+
+
+    public function fetchOpenOrders($symbol, $orderId)
+    {
+        $params['type'] = 'future';
+        $params['symbol'] = $symbol;
+        $params['orderId'] = $orderId;
+        $response = $this->httpRequest('allOrders', 1, 'GET', $params);
+        return $response;
+    }
+    public function fetch_open_orders($symbol = null, $since = null, $limit = null, $params = array())
+    {
+        $this->load_markets();
+        $market = null;
+        $query = null;
+        $type = null;
+        $request = array();
+        if ($symbol !== null) {
+            $market = $this->market($symbol);
+            $request['symbol'] = $market['id'];
+            $defaultType = $this->safe_string_2($this->options, 'fetchOpenOrders', 'defaultType', $market['type']);
+            $type = $this->safe_string($params, 'type', $defaultType);
+            $query = $this->omit($params, 'type');
+        } else if ($this->options['warnOnFetchOpenOrdersWithoutSymbol']) {
+            $symbols = $this->symbols;
+            $numSymbols = is_array($symbols) ? count($symbols) : 0;
+            $fetchOpenOrdersRateLimit = intval($numSymbols / 2);
+            throw new ExchangeError($this->id . ' fetchOpenOrders WARNING => fetching open orders without specifying a $symbol is rate-limited to one call per ' . (string) $fetchOpenOrdersRateLimit . ' seconds. Do not call this $method frequently to avoid ban. Set ' . $this->id . '.options["warnOnFetchOpenOrdersWithoutSymbol"] = false to suppress this warning message.');
+        } else {
+            $defaultType = $this->safe_string_2($this->options, 'fetchOpenOrders', 'defaultType', 'spot');
+            $type = $this->safe_string($params, 'type', $defaultType);
+            $query = $this->omit($params, 'type');
+        }
+        $method = 'privateGetOpenOrders';
+        if ($type === 'future') {
+            $method = 'fapiPrivateGetOpenOrders';
+        } else if ($type === 'delivery') {
+            $method = 'dapiPrivateGetOpenOrders';
+        } else if ($type === 'margin') {
+            $method = 'sapiGetMarginOpenOrders';
+        }
+
+        $response = $this->$method(array_merge($request, $query));
+        return $this->parse_orders($response, $market, $since, $limit);
     }
 }

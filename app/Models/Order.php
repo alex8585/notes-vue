@@ -13,6 +13,7 @@ class Order extends Model
         'created_at' => 'date:d-m-Y H:i',
         'updated_at' => 'date:d-m-Y H:i',
     ];
+
     public function scopeSort($query, $sort, $direction)
     {
 
@@ -26,5 +27,10 @@ class Order extends Model
         $query->orderBy($sort, $direction);
 
         return $query;
+    }
+
+    public function getSymbolIdAttribute()
+    {
+        return str_replace("/", "",  $this->symbol);
     }
 }

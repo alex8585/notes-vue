@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Order;
 use App\Utils\Binance;
+use App\Utils\TerminalCache;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\SaveSettingsRequest;
@@ -29,7 +30,7 @@ class TerminalController extends Controller
     // }
 
 
-    public function createOrder(Binance $binance, OrderCreateRequest $request)
+    public function createOrder(Binance $binance, OrderCreateRequest $request, TerminalCache $cache)
     {
         $data = $request->validated();
 
@@ -41,22 +42,40 @@ class TerminalController extends Controller
         $order = Order::create([
             'symbol' => $symbol,
             'leverage' => $leverage,
-            'side' => $side
+            'side' => $side,
+            "stop1" => $data['stop1'],
+            "take" => $data['take'],
+
         ]);
 
         $binance->placeLeverage($symbol, $leverage);
+
         $params = ['newClientOrderId' => $order->id];
         $binOrder =  $binance->placeMarketOrder($symbol, $side, $amount, $params);
+        if ($side == 'sell') {
+            $stop1_price = $binOrder['price'] + $binOrder['price'] / 100 * $data['stop1'];
+            $take_price = $binOrder['price'] - $binOrder['price'] / 100 * $data['take'];
+        } else if ($side == 'buy') {
+            $stop1_price = $binOrder['price'] + $binOrder['price'] / 100 * $data['stop1'];
+            $take_price = $binOrder['price'] - $binOrder['price'] / 100 * $data['take'];
+        }
+
 
         $order->fill([
             'binance_id' => $binOrder['id'],
             'amount' => $binOrder['amount'],
             'cost' => $binOrder['cost'],
-            'price' => $binOrder['price'],
+            'price' => $binOrder['average'],
             'average' => $binOrder['average'],
+            'status' => 'active',
+            "stop1_price" => $stop1_price,
+            "take_price" => $take_price,
         ]);
         $order->save();
-        //dd($binOrder);
+
+        $r = $cache->forgetActiveOrders();
+
+        dd($r);
         return back()
             ->with('success', 'The order has created.');
     }
