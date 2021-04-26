@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('orders', [TerminalController::class, 'orders'])->name('terminal.orders');
     Route::get('settings', [TerminalController::class, 'settings'])->name('terminal.settings');
     Route::post('save-settings', [TerminalController::class, 'saveSettings'])->name('terminal.save-settings');
+    Route::delete('close-order/{order}', [TerminalController::class, 'closeOrder'])->name('terminal.close-order');
 
 
     //Route::get('get-last-price/{id}', [TerminalController::class, 'getLastPrice'])->name('get_last_price');

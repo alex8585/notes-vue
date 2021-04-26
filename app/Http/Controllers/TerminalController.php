@@ -49,29 +49,8 @@ class TerminalController extends Controller
         ]);
 
         $binance->placeLeverage($symbol, $leverage);
-
-        $params = ['newClientOrderId' => $order->id];
-        $binOrder =  $binance->placeMarketOrder($symbol, $side, $amount, $params);
-        if ($side == 'sell') {
-            $stop1_price = $binOrder['price'] + $binOrder['price'] / 100 * $data['stop1'];
-            $take_price = $binOrder['price'] - $binOrder['price'] / 100 * $data['take'];
-        } else if ($side == 'buy') {
-            $stop1_price = $binOrder['price'] + $binOrder['price'] / 100 * $data['stop1'];
-            $take_price = $binOrder['price'] - $binOrder['price'] / 100 * $data['take'];
-        }
-
-
-        $order->fill([
-            'binance_id' => $binOrder['id'],
-            'amount' => $binOrder['amount'],
-            'cost' => $binOrder['cost'],
-            'price' => $binOrder['average'],
-            'average' => $binOrder['average'],
-            'status' => 'active',
-            "stop1_price" => $stop1_price,
-            "take_price" => $take_price,
-        ]);
-        $order->save();
+        $binOrder =  $binance->placeMarketOrder($symbol, $side, $amount);
+        $order->placeNewOrder($binOrder);
 
         $r = $cache->forgetActiveOrders();
 
@@ -82,11 +61,14 @@ class TerminalController extends Controller
 
     public function orders(HttpRequest $request)
     {
+
+        $status = $request->status ?? 'active';
         $direction =  $request->direction ?? 'asc';
         $sort = $request->sort ?? 'symbol';
-        $orders = Order::sort($sort, $direction)->paginate()->withQueryString();
+        $orders = Order::sort($sort, $direction)->filter(compact('status'))->paginate()->withQueryString();
 
         return inertia('Terminal/Orders', [
+            'status' => $status,
             'defaultDirection' => $direction,
             'items' => $orders
         ]);
@@ -103,5 +85,10 @@ class TerminalController extends Controller
     {
         setting($request->validated())->save();
         return back()->with('success', 'Settings has been saved.');
+    }
+
+    public function closeOrder(Order $order)
+    {
+        dd($order);
     }
 }

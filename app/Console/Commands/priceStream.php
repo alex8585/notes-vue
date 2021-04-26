@@ -121,40 +121,14 @@ class priceStream extends Command
         $side = ($order->side == "sell") ? "buy" : "sell";
         $amount = $order->amount;
 
-
         $binOrder =  $this->binance->placeMarketOrder($symbol, $side, $amount);
         if ($binOrder && isset($binOrder['average'])) {
-            $closePrice = $binOrder['average'];
-            $closeCost = $binOrder['cost'];
-            if ($order->side == "sell") {
-                $result = $order->cost -  $closeCost;
-                dump($order->cost);
-                dump($closeCost);
-                dump($result);
-                $result_percent = $this->calcPercents($order->price, $closePrice);
-            } else if ($order->side == "buy") {
-                $result =  $closePrice - $order->price;
-                $result_percent = $this->calcPercents($closePrice, $order->price);
-            }
-
-            $order->fill([
-                'sell_price' => $closePrice,
-                'status' => $binOrder['status'],
-                'result' =>  $result,
-                'result_percent' => $result_percent,
-            ]);
-
-            $order->save();
+            $order->closeOrder($binOrder);
             $this->cache->forgetActiveOrders();
             $this->removeOrderFromActiveOrders($order);
             dump(['order has been stopped', $order->id]);
         } else {
             dump(['error stopOrder ', $order]);
         }
-    }
-
-    public function calcPercents($a, $b)
-    {
-        return ($a - $b) / $b * 100;
     }
 }
