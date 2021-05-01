@@ -6,10 +6,12 @@ use App\Models\Tag;
 use App\Models\Test;
 use Inertia\Inertia;
 use App\Models\Media;
+use Telegram\Bot\Api as TelegramApi;
 use App\Models\Market;
 use App\Utils\Binance;
 use App\Models\Taggable;
 use Illuminate\Support\Facades\Auth;
+use Telegram\Bot\Laravel\Facades\Telegram;
 use anlutro\LaravelSettings\Facade as Setting;
 
 class DashboardController extends Controller
@@ -25,32 +27,21 @@ class DashboardController extends Controller
 
     public function index(Binance $binance, Setting $s)
     {
-        // Setting::setExtraColumns(array(
-        //     'user_id' => Auth::user()->id
-        // ));
-        // dd(Auth::user());
-
-        //setting(['a' => ['1', '2222', '3333']])->save();
-        //dd(setting('a'));
-
-        //$balances = $binance->fetch_balance();
+        //$response =  Telegram::getMe();
+      
+        // $user_id         = Telegram::getWebhookUpdates()->getMessage()->getFrom()->getId();
+        // $user_name         = Telegram::getWebhookUpdates()->getMessage()->getFrom()->getFirstName();
+        // $chat_id         = Telegram::getWebhookUpdates()->getMessage()->getChat()->getId();
+        // $user_message     = Telegram::getWebhookUpdates()->getMessage()->getText();
 
 
-        // $book = $binance->fetch_order_book('ETH/USDT');
-        // $ticker = $binance->fetch_ticker('ETH/USDT');
-
-        //$market = $binance->market('ETH/USDT');
-
-        //['symbol' => 'ETH/USDT', 'leverage' => '125']
-        //$r = $binance->sign('positionRisk', 'fapiPrivateV2');
-        //$r =  $binance->http_get('leverageBracket', 1, []);
 
 
-        //$markets =  $binance->getMarketsWithLeverage();
+        // $botId = $response->getId();
+        // $firstName = $response->getFirstName();
+        // $username = $response->getUsername();
 
-
-        //dd($binance->describe());
-
+        
 
 
 

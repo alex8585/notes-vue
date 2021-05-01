@@ -1,15 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ImagesController;
+use Telegram\Bot\Laravel\Facades\Telegram;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\TerminalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ConstructorController;
 use App\Http\Controllers\OrganizationsController;
 
 /*
@@ -23,10 +26,30 @@ use App\Http\Controllers\OrganizationsController;
 |
 */
 
+// $updates = Telegram::getWebhookUpdates();
+// Route::post('1663064930:AAGjElDtI4SVl0usG8cN2x-LIsloJ11nZPc/webhook', function () {
+//     $updates = Telegram::getWebhookUpdates();
+
+//     return 'ok';
+// });
+
+
+
+// Route::get('me', [TerminalController::class, 'me']);
+// Route::get('update', [TerminalController::class, 'update']);
+// Route::get('respond', [TerminalController::class, 'respond']);
+// Route::get('webhook',  [TerminalController::class, 'webhook']);
+
+// Route::get('setWebHook', [TerminalController::class, 'setWebHook']);
+//Route::post('1663064930:AAGjElDtI4SVl0usG8cN2x-LIsloJ11nZPc/webhook', [TerminalController::class, 'setWebHook']);
+
+
+
 Route::middleware('auth')->group(function () {
     // Dashboard
     //Route::get('/')->name('dashboard')->uses('DashboardController');
 
+    Route::get('constructor', [ConstructorController::class, 'index'])->name('constructor');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('terminal', [TerminalController::class, 'index'])->name('terminal');
     Route::post('create-order', [TerminalController::class, 'createOrder'])->name('terminal.create_order');

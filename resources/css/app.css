@@ -9,3 +9,191 @@
 
 /* Utilities */
 @import 'tailwindcss/utilities';
+
+
+@font-face {
+    font-family: 'bubble';
+    src: url('fonts/bubble.woff') format('woff');
+  }
+  /* custom font */
+  @font-face {
+    font-family: 'Alexa';
+    src: url('fonts/AlexBrush.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Allura';
+    src: url('fonts/Allura.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Dancer';
+    src: url('fonts/Dancer.ttf') format('truetype');
+         
+    }
+  @font-face {
+    font-family: 'Darcey';
+    src: url('fonts/Darcey.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Gruenewald';
+    src: url('fonts/Gruenewald.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'NewCursive';
+    src: url('fonts/NewCursive.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Nickainley';
+    src: url('fonts/Nickainley.woff') format('truetype');
+  }
+  @font-face {
+    font-family: 'Vintage';
+    src: url('fonts/Vintage.woff') format('opentype');
+  }
+  @font-face {
+    font-family: 'Vultures';
+    src: url('fonts/Vultures.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'Amanda';
+    src: url('fonts/Amanda.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'cantilena';
+    src: url('fonts/cantilena.woff') format('woff');
+  }
+  @font-face {
+    font-family: 'Signature';
+    src: url('fonts/Signature.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Hamillton';
+    src: url('fonts/Hamillton.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Hesterica';
+    src: url('fonts/Hesterica.woff') format('opentype');
+  }
+  @font-face {
+    font-family: 'LoveNote';
+    src: url('fonts/LoveNote.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Northwell';
+    src: url('fonts/Northwell.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Quinzey';
+    src: url('fonts/Quinzey.woff') format('opentype');
+  }
+  @font-face {
+    font-family: 'RedVelvet';
+    src: url('fonts/RedVelvet.woff') format('truetype');
+  }
+  @font-face {
+    font-family: 'Rocket';
+    src: url('fonts/Rocket.woff') format('truetype');
+  }
+  @font-face {
+    font-family: 'WildSpirit';
+    src: url('fonts/WildSpirit.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'AvantGarde';
+    src: url('fonts/AvantGarde.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Bauhaus';
+    src: url('fonts/Bauhaus.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'DolceVita';
+    src: url('fonts/DolceVita.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Kiona';
+    src: url('fonts/Kiona.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'NixieOne';
+    src: url('fonts/NixieOne.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'PaperDaisy';
+    src: url('fonts/PaperDaisy.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'Bayshore';
+    src: url('fonts/Bayshore.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Roboto';
+    src: url('fonts/Roboto.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Lovelo';
+    src: url('fonts/Lovelo.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'NeonGlow';
+    src: url('fonts/NeonGlow.otf') format('opentype');
+  }
+  
+  @font-face {
+    font-family: 'NeonLite';
+    src: url('fonts/NeonLite.woff') format('opentype');
+  }
+  @font-face {
+    font-family: 'NeonTube';
+    src: url('fonts/NeonTube.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'Budhayanti';
+    src: url('fonts/Budhayanti.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'KBWriters';
+    src: url('fonts/KBWriters.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Linoleo';
+    src: url('fonts/Linoleo.woff') format('opentype');
+  }
+  @font-face {
+    font-family: 'Wild Spirit';
+    src: url('fonts/WildSpirit.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Ahsley';
+    src: url('fonts/Ahsley.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Seaside';
+    src: url('fonts/Seaside.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Southampton';
+    src: url('fonts/Southampton.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Echo';
+    src: url('fonts/Echo.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Sebastrian';
+    src: url('fonts/Sebastrian.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'MarqueeMoon';
+    src: url('fonts/MarqueeMoon.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Typewriter';
+    src: url('fonts/Typewriter.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Typewritten';
+    src: url('fonts/Typewritten.ttf') format('truetype');
+  }
