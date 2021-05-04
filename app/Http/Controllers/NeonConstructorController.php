@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use anlutro\LaravelSettings\Facade as Setting;
 
-class ConstructorController extends Controller
+class NeonConstructorController extends Controller
 {
     public function __construct()
     {
@@ -76,6 +76,6 @@ class ConstructorController extends Controller
 
 
 
-        return Inertia::render('Constructor/Index.vue', compact('fonts'));
+        return Inertia::render('NeonConstructor/Index.vue', compact('fonts'));
     }
 }

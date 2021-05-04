@@ -12,8 +12,9 @@ use App\Http\Controllers\TerminalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\ConstructorController;
+use App\Http\Controllers\NeonConstructorController;
 use App\Http\Controllers\OrganizationsController;
+use App\Http\Controllers\CupConstructorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +50,12 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     //Route::get('/')->name('dashboard')->uses('DashboardController');
 
-    Route::get('constructor', [ConstructorController::class, 'index'])->name('constructor');
+    Route::get('neon-constructor', [NeonConstructorController::class, 'index'])->name('neon-constructor');
+
+    Route::get('cup-constructor', [CupConstructorController::class, 'index'])->name('cup-constructor');
+    Route::post('cup-save-image', [CupConstructorController::class, 'saveImage'])->name('cup-constructor.saveImage');
+
+
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('terminal', [TerminalController::class, 'index'])->name('terminal');
     Route::post('create-order', [TerminalController::class, 'createOrder'])->name('terminal.create_order');

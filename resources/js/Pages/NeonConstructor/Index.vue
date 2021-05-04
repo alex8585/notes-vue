@@ -167,7 +167,7 @@
 <script>
 import Layout from '@/Shared/Layout2'
 export default {
-  metaInfo: { title: 'Categories' },
+  metaInfo: { title: 'Neon' },
   components: {},
   layout: Layout,
 
@@ -229,7 +229,7 @@ export default {
       this.txtStylesArr.push(newClassName)
 
       this.curColor = v
-      console.log(this.txtStylesArr)
+      //console.log(this.txtStylesArr)
     },
     changeControl: function(v) {
       this.curControl = v
