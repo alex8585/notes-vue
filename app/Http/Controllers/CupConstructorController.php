@@ -26,28 +26,20 @@ class CupConstructorController extends Controller
     public function index(HttpRequest $request, Setting $s)
     {
         $path = setting('path');
-        //$request->session()->put(['path' =>  $path]);
-        //dd($request->session()->all());
-
-
+      
         return Inertia::render('CupConstructor/Index.vue', ['path' => $path]);
     }
 
     public function saveImage(HttpRequest $request)
     {
-        $path = Storage::put('CupConstructor', $request->photo);
+        $p = Storage::put('public/CupConstructor', $request->photo);
+        $path = str_replace('public', "storage", $p);
 
-        //$request->session()->put(['path' =>  $path]);
         setting(['path' => $path])->save();
 
         return Redirect::route('cup-constructor')->with([
             'path' =>  $path,
             'result' => 'success',
         ]);;
-
-        // return back()->with([
-        //     'path' =>  $path,
-        //     'result' => 'success',
-        // ]);
     }
 }
