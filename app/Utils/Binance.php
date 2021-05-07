@@ -95,6 +95,10 @@ class Binance
             'ask' => $obj->a,
         ];
     }
+    public function klines($params = [])
+    {
+        return $this->httpRequest('klines', 1, "GET", $params);
+    }
 
     public function httpRequest($urlPart, $apiVersion = 1, $method = 'GET', $params = [])
     {
