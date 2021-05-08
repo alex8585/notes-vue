@@ -20,9 +20,7 @@ class UsersController extends Controller
         return Inertia::render('Users/Index', [
             'filters' => Request::all('search', 'role', 'trashed'),
             'users' => new UserCollection(
-                Auth::user()->account->users()
-                    ->orderByName()
-                    ->filter(Request::only('search', 'role', 'trashed'))
+                User::filter(Request::only('search', 'role', 'trashed'))
                     ->paginate()
                     ->appends(Request::all())
             ),
@@ -45,6 +43,7 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+
         return Inertia::render('Users/Edit', [
             'user' => new UserResource($user),
         ]);
@@ -52,6 +51,7 @@ class UsersController extends Controller
 
     public function update(User $user, UserUpdateRequest $request)
     {
+
         $user->update(
             $request->validated()
         );

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserUpdateRequest extends FormRequest
 {
-    use LockedDemoUser;
+    //use LockedDemoUser;
 
     /**
      * Get the validation rules that apply to the request.
@@ -19,9 +19,10 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['required', 'max:50'],
-            'last_name' => ['required', 'max:50'],
-            'email' => ['required', 'max:50', 'email',
+            'name' => ['required', 'max:50'],
+
+            'email' => [
+                'required', 'max:50', 'email',
                 Rule::unique('users')->ignore($this->route('user')->id)
             ],
             'password' => ['nullable'],
@@ -29,5 +30,4 @@ class UserUpdateRequest extends FormRequest
             'photo' => ['nullable', 'image'],
         ];
     }
-
 }

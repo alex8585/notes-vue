@@ -55,13 +55,16 @@ class checkUpdateMaximum extends Command
             $index = $maxPricees->search(function ($item, $key) use ($symbol) {
                 return $item->symbol == $symbol;
             });
-            $maxPrice = $maxPricees[$index]->value;
-            if ($markPrice > $maxPrice) {
+            $maxPrice =  $maxPricees[$index];
+
+            if ($markPrice > $maxPrice->value) {
                 $msg = $symbol . ' = ' . $markPrice;
                 Telegram::sendMessage([
                     'chat_id' => $chat_id,
                     'text' => $msg
                 ]);
+                $maxPrice->value = $markPrice;
+                $maxPrice->save();
                 //dd('1');
             }
         }

@@ -5,8 +5,9 @@ import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress/src'
 import store from './store'
 import './register-components.js'
-
-
+import VuejsClipper from 'vuejs-clipper/dist/vuejs-clipper.umd'
+import 'vuejs-clipper/dist/vuejs-clipper.css'
+import VueRx from 'vue-rx'
 InertiaProgress.init()
 
 const el = document.getElementById('app')
@@ -33,6 +34,13 @@ Vue.use(plugin)
 Vue.use(PortalVue)
 Vue.use(store)
 Vue.use(require('vue-moment'))
+Vue.use(VueRx)
 
 window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = vm.constructor
 Vue.config.devtools = process.env.NODE_ENV === 'development'
+Vue.use(VuejsClipper, {
+  components: {
+    clipperBasic: true,
+    clipperPreview: true,
+  },
+})
