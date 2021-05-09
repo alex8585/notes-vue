@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Inertia\Inertia;
 
 class LoginController extends Controller
 {
@@ -35,7 +36,9 @@ class LoginController extends Controller
      * @return \Inertia\Response
      */
     public function showLoginForm()
+
     {
+        //dd(bcrypt('Elvne3132'));
         return Inertia::render('Auth/Login');
     }
 }

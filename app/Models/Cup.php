@@ -12,13 +12,24 @@ class Cup extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'params' => 'array',
+    ];
 
     public function getImgUrlAttribute()
     {
-        return $this->imgUrl(['w' => 400, 'h' => 400, 'fit' => 'crop']);
+        //'w' => 400, 'h' => 400, 'fit' => 'crop'
+        return $this->imgUrl([]);
     }
 
-    public function getImgUrl20Attribute()
+
+    public function getCroppedImgUrlAttribute()
+    {
+        $p = $this->params;
+        return $this->imgUrl(['crop' => "{$p['width']},{$p['height']},{$p['left']},{$p['top']}"]);
+    }
+
+    public function getImgThumnailbUrlAttribute()
     {
         return $this->imgUrl([]);
     }

@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('cup-constructor', [CupConstructorController::class, 'index'])->name('cup-constructor');
     Route::post('cup-save-image', [CupConstructorController::class, 'saveImage'])->name('cup-constructor.saveImage');
+    Route::post('cup-crop-image', [CupConstructorController::class, 'cropImage'])->name('cup-constructor.cropImage');
 
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

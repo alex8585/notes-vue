@@ -48,29 +48,57 @@ class CupConstructorController extends Controller
 
         //setting(['path' => $path])->save();
 
-        $thumbnail = $path = null;
+
+
+
+        $path = null;
         if ($request->photo) {
             $path = $request->photo->store('cups');
+            $data = getimagesize($request->photo);
+            $params = ['real_width' => $data[0], 'real_height' => $data[1]];
 
             $cup = Cup::firstOrCreate(
                 ['img' => $path],
-                ['user_id' => Auth::user()->id, 'img' =>  $path]
+                ['user_id' => Auth::user()->id, 'img' =>  $path, 'params' => $params],
             );
-            $path = $cup->imgUrl;
-            $thumbnail = $cup->ImgUrl20;
+            $path = $cup->ImgUrl;
+
+            return [
+                'path' =>  $path,
+                'cup_id' => $cup->id,
+                'result' => 'success',
+            ];
         }
 
-        return [
-            'path' =>  $path,
-            'thumbnail' => $thumbnail,
-            'result' => 'success',
-        ];
 
+        return null;
 
         // return Redirect::route('cup-constructor')->with([
         //     'path' =>  $path,
         //     'thumbnail' => $thumbnail,
         //     'result' => 'success',
         // ]);;
+    }
+    public function cropImage(HttpRequest $request)
+    {
+        $cup = Cup::findOrFail($request->cup_id);
+
+        $params['real_width'] = $cup->params['real_width'];
+        $params['real_height'] = $cup->params['real_height'];
+
+
+        $params['width'] =  $params['real_width'] * $request->width / 100;
+        $params['height'] = $params['real_height'] * $request->height / 100;
+
+        $params['left'] = $params['real_width'] * $request->left / 100;
+        $params['top'] =  $params['real_height'] *  $request->top / 100;
+
+        $cup->params = $params;
+        $cup->save();
+
+        return [
+            'cropped' => $cup->croppedImgUrl,
+            'result' => 'success',
+        ];
     }
 }

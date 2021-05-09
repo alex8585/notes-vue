@@ -17,6 +17,7 @@ class CreateCupsTable extends Migration
             $table->id();
             $table->integer('user_id')->index();
             $table->string('img')->nullable();
+            $table->json('params')->nullable();
             $table->timestamps();
         });
     }

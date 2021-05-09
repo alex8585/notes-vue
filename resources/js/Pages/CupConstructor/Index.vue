@@ -11,7 +11,7 @@
 
       <div class="lg:w-4/12">
         <div class=" m-10">
-          <div class=""><img v-if="thumbnail" class="block w-8 h-8 rounded-full ml-4" :src="thumbnail" /></div>
+          <div class=""><img v-if="path" class="block w-8 h-8 rounded-full ml-4" :src="path" /></div>
           <form>
             <!-- <div class="  flex flex-wrap">
               <file-input v-model="form.photo" :error="form.errors.photo" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
@@ -22,8 +22,8 @@
             <file-input v-model="form.photo" :error="form.errors.photo" type="file" accept="image/*" label="Photo" @input="uploadFile" />
           </form>
           <form v-if="path">
-            <clipper-basic :src="path" ref="clipper" @load="loadCb" />
-            <button class="btn-indigo" type="submit" @click.prevent="cropImg">Crop</button>
+            <clipper-basic :ratio="3" :min-width="30" :max-width="70" :src="path" ref="clipper" @load="loadCb" />
+            <button v-if="cropData.top" class="btn-indigo" type="submit" @click.prevent="cropImg">Crop</button>
           </form>
         </div>
       </div>
@@ -53,8 +53,8 @@ export default {
 
   data() {
     return {
-      path: '',
-      thumbnail: '',
+      path: null,
+      cropped: null,
       form: this.$inertia.form({
         photo: null,
       }),
@@ -72,6 +72,15 @@ export default {
         centerX: 0,
         centerY: 0,
       },
+      cropData: {
+        _token: this.$page.props.csrf,
+        cup_id: null,
+        width: null,
+        height: null,
+        left: null,
+        top: null,
+        ratio: null,
+      },
     }
   },
 
@@ -82,9 +91,27 @@ export default {
     //const canvas = this.$refs.clipper.clip()
     window.addEventListener('resize', this.onWindowResize)
   },
+  created: function() {},
 
   methods: {
-    loadCb: function() {},
+    loadCb: function() {
+      this.$refs.clipper.onChange$.subscribe(() => {
+        let width = this.$refs.clipper.zoomWH$.width
+        let height = this.$refs.clipper.zoomWH$.height
+        let left = this.$refs.clipper.zoomTL$.left
+        let top = this.$refs.clipper.zoomTL$.top
+        let ratio = this.$refs.clipper.imgRatio
+
+        this.cropData.width = width ? width : this.cropData.width
+        this.cropData.height = height ? height : this.cropData.height
+        this.cropData.left = left ? left : this.cropData.left
+        this.cropData.top = top ? top : this.cropData.top
+        this.cropData.ratio = ratio ? ratio : this.cropData.ratio
+        //console.log(this.$refs.clipper.zoomWH$)
+        //console.log(this.$refs.clipper.zoomTL$)
+        //console.log(this.cropData)
+      })
+    },
 
     loadGltf: function() {
       const loader = new GLTFLoader()
@@ -188,10 +215,11 @@ export default {
       this.renderer.setSize(window.innerWidth, window.innerHeight)
     },
     changTexture() {
-      if (!this.path) return
-      //console.log(this.path)
-      //console.log(this.thumbnail)
-      const texture = new THREE.TextureLoader().load(this.path)
+      if (!this.cropped) {
+        return
+      }
+
+      const texture = new THREE.TextureLoader().load(this.cropped)
       this.cup.side = THREE.DoubleSide
       texture.flipY = false
       texture.flipX = false
@@ -200,11 +228,30 @@ export default {
       this.cup.material.needsUpdate = true
     },
     cropImg() {
-      console.log(this.$refs.clipper.zoomTL$)
-      console.log(this.$refs.clipper.zoomWH$)
+      // console.log(this.$refs.clipper.zoomTL$)
+      // console.log(this.$refs.clipper.zoomWH$)
+      // console.log(this.$refs.clipper.imgRatio)
+
+      let formData = this.cropData
+
+      //console.log(formData)
+      axios.post(this.route('cup-constructor.cropImage'), formData).then(res => {
+        this.cropped = res.data.cropped
+        //console.log(this.cropped)
+        this.changTexture()
+      })
+    },
+    deleteTexture() {
+      let mat = new THREE.MeshBasicMaterial({ color: 0xffffff })
+      this.cup.material = mat
     },
     uploadFile(file) {
-      if (!file) return
+      if (!file) {
+        this.path = null
+        this.cropped = null
+        this.deleteTexture()
+        return
+      }
 
       let formData = new FormData()
       formData.append('photo', file)
@@ -216,8 +263,9 @@ export default {
           },
         })
         .then(res => {
+          this.cropData.cup_id = res.data.cup_id
           this.path = res.data.path
-          this.thumbnail = res.data.thumbnail
+          //console.log(res.data.path)
         })
 
       // this.form.post(this.route('cup-constructor.saveImage'), {
