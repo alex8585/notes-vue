@@ -12,7 +12,7 @@ class OrganizationsController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Organizations/Index', [
+        return Inertia::render('Admin/Organizations/Index', [
             'filters' => Request::all('search', 'trashed'),
             'organizations' => Auth::user()->account->organizations()
                 ->orderBy('name')
@@ -34,7 +34,7 @@ class OrganizationsController extends Controller
 
     public function create()
     {
-        return Inertia::render('Organizations/Create');
+        return Inertia::render('Admin/Organizations/Create');
     }
 
     public function store()
@@ -57,7 +57,7 @@ class OrganizationsController extends Controller
 
     public function edit(Organization $organization)
     {
-        return Inertia::render('Organizations/Edit', [
+        return Inertia::render('Admin/Organizations/Edit', [
             'organization' => [
                 'id' => $organization->id,
                 'name' => $organization->name,

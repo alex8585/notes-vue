@@ -35,7 +35,7 @@ class CupConstructorController extends Controller
             $path = $cup->imgUrl;
             $thumbnail = $cup->ImgUrl20;
         }
-        return Inertia::render('CupConstructor/Index.vue', [
+        return Inertia::render('Admin/CupConstructor/Index.vue', [
             'path' => '',
             'thumbnail' => ''
         ]);

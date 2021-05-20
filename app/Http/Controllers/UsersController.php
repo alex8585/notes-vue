@@ -17,7 +17,7 @@ class UsersController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Users/Index', [
+        return Inertia::render('Admin/Users/Index', [
             'filters' => Request::all('search', 'role', 'trashed'),
             'users' => new UserCollection(
                 User::filter(Request::only('search', 'role', 'trashed'))
@@ -29,7 +29,7 @@ class UsersController extends Controller
 
     public function create()
     {
-        return Inertia::render('Users/Create');
+        return Inertia::render('Admin/Users/Create');
     }
 
     public function store(UserStoreRequest $request)
@@ -44,7 +44,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
 
-        return Inertia::render('Users/Edit', [
+        return Inertia::render('Admin/Users/Edit', [
             'user' => new UserResource($user),
         ]);
     }

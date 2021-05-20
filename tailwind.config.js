@@ -2,12 +2,7 @@ const colors = require('tailwindcss/colors')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  purge: [
-    // prettier-ignore
-    './resources/**/*.blade.php',
-    './resources/**/*.js',
-    './resources/**/*.vue',
-  ],
+  purge: ['./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php', './vendor/laravel/jetstream/**/*.blade.php', './storage/framework/views/*.php', './resources/views/**/*.blade.php', './resources/js/**/*.vue'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
@@ -31,6 +26,9 @@ module.exports = {
       },
     },
     extend: {
+      // fontFamily: {
+      //   sans: ["Nunito", ...defaultTheme.fontFamily.sans],
+      // },
       borderColor: theme => ({
         DEFAULT: theme('colors.gray.200', 'currentColor'),
       }),
@@ -43,10 +41,13 @@ module.exports = {
       fill: theme => theme('colors'),
     },
   },
+
   variants: {
     extend: {
       fill: ['focus', 'group-hover'],
+      opacity: ['disabled'],
     },
   },
-  plugins: [],
+
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 }

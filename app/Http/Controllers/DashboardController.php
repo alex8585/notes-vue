@@ -28,7 +28,7 @@ class DashboardController extends Controller
     public function index(Binance $binance, Setting $s)
     {
         //$response =  Telegram::getMe();
-      
+
         // $user_id         = Telegram::getWebhookUpdates()->getMessage()->getFrom()->getId();
         // $user_name         = Telegram::getWebhookUpdates()->getMessage()->getFrom()->getFirstName();
         // $chat_id         = Telegram::getWebhookUpdates()->getMessage()->getChat()->getId();
@@ -41,11 +41,11 @@ class DashboardController extends Controller
         // $firstName = $response->getFirstName();
         // $username = $response->getUsername();
 
-        
 
 
 
 
-        return Inertia::render('Dashboard/Index.vue');
+
+        return Inertia::render('Admin/Dashboard/Index.vue');
     }
 }

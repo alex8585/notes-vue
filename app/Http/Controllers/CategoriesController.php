@@ -43,8 +43,10 @@ class CategoriesController extends Controller
         //dd(Auth::user());
 
         $categories = Auth::user()->categories()->sort($sort, $direction)->paginate()->appends(Request::all());
+
+        //dd($categories);
         return Inertia::render(
-            'Categories/Index',
+            'Admin/Categories/Index',
 
             ['categories' => $categories, 'defaultDirection' => $direction]
         );
@@ -57,7 +59,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Categories/Create');
+        return Inertia::render('Admin/Categories/Create');
     }
 
     /**
@@ -95,7 +97,7 @@ class CategoriesController extends Controller
      */
     public function edit(Category $category)
     {
-        return Inertia::render('Categories/Edit', [
+        return Inertia::render('Admin/Categories/Edit', [
             'category' => new JsonResource($category),
         ]);
     }

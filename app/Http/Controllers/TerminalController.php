@@ -17,7 +17,7 @@ class TerminalController extends Controller
     {
         $markets =  $binance->getMarketsWithLeverage();
 
-        return inertia('Terminal/Index', ['markets' => $markets]);
+        return inertia('Admin/Terminal/Index', ['markets' => $markets]);
     }
 
     // public function getLastPrice(Binance $binance, $id)
@@ -67,7 +67,7 @@ class TerminalController extends Controller
         $sort = $request->sort ?? 'symbol';
         $orders = Order::sort($sort, $direction)->filter(compact('status'))->paginate()->withQueryString();
 
-        return inertia('Terminal/Orders', [
+        return inertia('Admin/Terminal/Orders', [
             'status' => $status,
             'defaultDirection' => $direction,
             'items' => $orders
@@ -75,7 +75,7 @@ class TerminalController extends Controller
     }
     public function settings()
     {
-        return inertia('Terminal/Settings', [
+        return inertia('Admin/Terminal/Settings', [
             'binApiKey' => setting('binApiKey'),
             'binApiSecret' => setting('binApiSecret'),
         ]);

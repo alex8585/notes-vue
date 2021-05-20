@@ -39,6 +39,6 @@ class LoginController extends Controller
 
     {
         //dd(bcrypt('Elvne3132'));
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Admin/Auth/Login');
     }
 }

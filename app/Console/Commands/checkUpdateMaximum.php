@@ -59,10 +59,10 @@ class checkUpdateMaximum extends Command
 
             if ($markPrice > $maxPrice->value) {
                 $msg = $symbol . ' = ' . $markPrice;
-                Telegram::sendMessage([
-                    'chat_id' => $chat_id,
-                    'text' => $msg
-                ]);
+                // Telegram::sendMessage([
+                //     'chat_id' => $chat_id,
+                //     'text' => $msg
+                // ]);
                 $maxPrice->value = $markPrice;
                 $maxPrice->save();
                 //dd('1');

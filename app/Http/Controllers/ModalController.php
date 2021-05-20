@@ -10,6 +10,6 @@ class ModalController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Modals/Index');
+        return Inertia::render('Admin/Modals/Index');
     }
 }

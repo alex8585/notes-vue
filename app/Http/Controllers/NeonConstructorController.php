@@ -76,6 +76,6 @@ class NeonConstructorController extends Controller
 
 
 
-        return Inertia::render('NeonConstructor/Index.vue', compact('fonts'));
+        return Inertia::render('Admin/NeonConstructor/Index.vue', compact('fonts'));
     }
 }

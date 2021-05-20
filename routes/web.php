@@ -1,5 +1,6 @@
 <?php
 
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\NotesController;
@@ -12,9 +13,11 @@ use App\Http\Controllers\TerminalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\NeonConstructorController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\CupConstructorController;
+//use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\NeonConstructorController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,28 +30,17 @@ use App\Http\Controllers\CupConstructorController;
 |
 */
 
-// $updates = Telegram::getWebhookUpdates();
-// Route::post('1663064930:AAGjElDtI4SVl0usG8cN2x-LIsloJ11nZPc/webhook', function () {
-//     $updates = Telegram::getWebhookUpdates();
-
-//     return 'ok';
-// });
 
 
-
-// Route::get('me', [TerminalController::class, 'me']);
-// Route::get('update', [TerminalController::class, 'update']);
-// Route::get('respond', [TerminalController::class, 'respond']);
-// Route::get('webhook',  [TerminalController::class, 'webhook']);
-
-// Route::get('setWebHook', [TerminalController::class, 'setWebHook']);
-//Route::post('1663064930:AAGjElDtI4SVl0usG8cN2x-LIsloJ11nZPc/webhook', [TerminalController::class, 'setWebHook']);
-
-
-
-Route::middleware('auth')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Dashboard
     //Route::get('/')->name('dashboard')->uses('DashboardController');
+
+    Route::get('/', function () {
+        return Inertia::render('Admin/Dashboard/Index.vue');
+    });
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('neon-constructor', [NeonConstructorController::class, 'index'])->name('neon-constructor');
 
@@ -87,9 +79,49 @@ Route::middleware('auth')->group(function () {
     Route::put('notes/{note}', [NotesController::class, 'update'])->name('notes.update');
     Route::delete('notes/{note}', [NotesController::class, 'destroy'])->name('notes.destroy');
     Route::put('notes/{note}/restore', [NotesController::class, 'restore'])->name('notes.restore');
+
+    // Reports
+
+    Route::get('reports', [ReportsController::class, 'index'])
+        ->name('reports')
+        ->middleware('auth');
+
+    // Users
+
+    Route::get('users', [UsersController::class, 'index'])
+        ->name('users')
+        ->middleware('remember', 'auth');
+
+    Route::get('users/create', [UsersController::class, 'create'])
+        ->name('users.create')
+        ->middleware('auth');
+
+    Route::post('users', [UsersController::class, 'store'])
+        ->name('users.store')
+        ->middleware('auth');
+
+    Route::get('users/{user}/edit', [UsersController::class, 'edit'])
+        ->name('users.edit')
+        ->middleware('auth');
+
+    Route::put('users/{user}', [UsersController::class, 'update'])
+        ->name('users.update')
+        ->middleware('auth');
+
+    Route::delete('users/{user}', [UsersController::class, 'destroy'])
+        ->name('users.destroy')
+        ->middleware('auth');
+
+    Route::put('users/{user}/restore', [UsersController::class, 'restore'])
+        ->name('users.restore')
+        ->middleware('auth');
 });
 
+
 // Auth
+Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('register', [RegisteredUserController::class, 'store'])->name('register.store');
+
 
 Route::get('login', [LoginController::class, 'showLoginForm'])
     ->name('login')
@@ -104,105 +136,13 @@ Route::post('logout', [LoginController::class, 'logout'])
 
 // Dashboard
 
-Route::get('/', [DashboardController::class, 'index'])
-    ->name('dashboard')
-    ->middleware('auth');
+Route::get('/', function () {
+    return Inertia::render('Frontend/Index.vue');
+})->name('main-page');
 
-// Users
 
-Route::get('users', [UsersController::class, 'index'])
-    ->name('users')
-    ->middleware('remember', 'auth');
 
-Route::get('users/create', [UsersController::class, 'create'])
-    ->name('users.create')
-    ->middleware('auth');
 
-Route::post('users', [UsersController::class, 'store'])
-    ->name('users.store')
-    ->middleware('auth');
-
-Route::get('users/{user}/edit', [UsersController::class, 'edit'])
-    ->name('users.edit')
-    ->middleware('auth');
-
-Route::put('users/{user}', [UsersController::class, 'update'])
-    ->name('users.update')
-    ->middleware('auth');
-
-Route::delete('users/{user}', [UsersController::class, 'destroy'])
-    ->name('users.destroy')
-    ->middleware('auth');
-
-Route::put('users/{user}/restore', [UsersController::class, 'restore'])
-    ->name('users.restore')
-    ->middleware('auth');
-
-// Organizations
-
-Route::get('organizations', [OrganizationsController::class, 'index'])
-    ->name('organizations')
-    ->middleware('auth');
-
-Route::get('organizations/create', [OrganizationsController::class, 'create'])
-    ->name('organizations.create')
-    ->middleware('auth');
-
-Route::post('organizations', [OrganizationsController::class, 'store'])
-    ->name('organizations.store')
-    ->middleware('auth');
-
-Route::get('organizations/{organization}/edit', [OrganizationsController::class, 'edit'])
-    ->name('organizations.edit')
-    ->middleware('auth');
-
-Route::put('organizations/{organization}', [OrganizationsController::class, 'update'])
-    ->name('organizations.update')
-    ->middleware('auth');
-
-Route::delete('organizations/{organization}', [OrganizationsController::class, 'destroy'])
-    ->name('organizations.destroy')
-    ->middleware('auth');
-
-Route::put('organizations/{organization}/restore', [OrganizationsController::class, 'restore'])
-    ->name('organizations.restore')
-    ->middleware('auth');
-
-// Contacts
-
-Route::get('contacts', [ContactsController::class, 'index'])
-    ->name('contacts')
-    ->middleware('auth');
-
-Route::get('contacts/create', [ContactsController::class, 'create'])
-    ->name('contacts.create')
-    ->middleware('auth');
-
-Route::post('contacts', [ContactsController::class, 'store'])
-    ->name('contacts.store')
-    ->middleware('auth');
-
-Route::get('contacts/{contact}/edit', [ContactsController::class, 'edit'])
-    ->name('contacts.edit')
-    ->middleware('auth');
-
-Route::put('contacts/{contact}', [ContactsController::class, 'update'])
-    ->name('contacts.update')
-    ->middleware('auth');
-
-Route::delete('contacts/{contact}', [ContactsController::class, 'destroy'])
-    ->name('contacts.destroy')
-    ->middleware('auth');
-
-Route::put('contacts/{contact}/restore', [ContactsController::class, 'restore'])
-    ->name('contacts.restore')
-    ->middleware('auth');
-
-// Reports
-
-Route::get('reports', [ReportsController::class, 'index'])
-    ->name('reports')
-    ->middleware('auth');
 
 // Images
 

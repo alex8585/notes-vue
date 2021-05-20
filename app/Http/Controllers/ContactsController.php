@@ -29,7 +29,7 @@ class ContactsController extends Controller
 
         // dd($a);
 
-        return Inertia::render('Contacts/Index', [
+        return Inertia::render('Admin/Contacts/Index', [
             'filters' => Request::all('search', 'trashed'),
             'contacts' => Auth::user()->account->contacts()
                 ->with('organization', function ($q) {
@@ -72,7 +72,7 @@ class ContactsController extends Controller
         // // });
 
         //dd($o);
-        return Inertia::render('Contacts/Create', [
+        return Inertia::render('Admin/Contacts/Create', [
             'organizations' => Auth::user()->account
                 ->organizations()
                 ->orderBy('name')
@@ -108,7 +108,7 @@ class ContactsController extends Controller
 
     public function edit(Contact $contact)
     {
-        return Inertia::render('Contacts/Edit', [
+        return Inertia::render('Admin/Contacts/Edit', [
             'contact' =>  new ContactResource($contact),
             'organizations' => Auth::user()->account->organizations()
                 ->orderBy('name')

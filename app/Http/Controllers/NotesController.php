@@ -74,7 +74,7 @@ class NotesController extends Controller
 
         //dd($notes);
         return inertia(
-            'Notes/Index',
+            'Admin/Notes/Index',
             [
                 'filters' => Request::all('search', 'category_id'),
                 'defaultDirection' => $direction,
@@ -93,7 +93,7 @@ class NotesController extends Controller
      */
     // public function create()
     // {
-    //     return Inertia::render('Notes/Create', [
+    //     return Inertia::render('Admin/Notes/Create', [
     //         'categories' => new ResourceCollection(
     //             Auth::user()->categories()
     //                 ->get()
@@ -136,7 +136,7 @@ class NotesController extends Controller
      */
     // public function edit(Category $category)
     // {
-    //     return Inertia::render('Categories/Edit', [
+    //     return Inertia::render('Admin/Categories/Edit', [
     //         'category' => new JsonResource($category),
     //     ]);
     // }
