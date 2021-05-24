@@ -2,47 +2,33 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
-use App\Events\TestEvent;
-use Illuminate\Notifications\Notifiable;
+use App\Models\Model;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
+use League\Glide\Server;
 
-class Note extends Model
+class Portfolio extends Model
 {
     use HasFactory;
-    use Notifiable;
-    use SoftDeletes;
-
-    // protected $dispatchesEvents = [
-    //     'saved' => TestEvent::class,
-    //     'deleted' => TestEvent::class,
-    // ];
-
-    // protected $dates = [
-    //     'created_at',
-    //     'updated_at'
-    // ];
-
 
     protected $casts = [
         'created_at' => 'date:d-m-Y H:i',
         'updated_at' => 'date:d-m-Y H:i',
     ];
 
-
-
-
-    public function category()
+    public function getImgUrlAttribute()
     {
-        return $this->belongsTo(Category::class);
+        //'w' => 400, 'h' => 400, 'fit' => 'crop'
+        return $this->imgUrl(['w' => 100]);
     }
-
-    // public function serializeDate(DateTimeInterface $date)
-    // {
-    //     //return $date;
-    //     return $date->format('d-Y-m');
-    // }
+    public function imgUrl(array $attributes)
+    {
+        if ($this->img) {
+            return URL::to(App::make(Server::class)->fromPath($this->img, $attributes));
+        }
+        return null;
+    }
 
     public function scopeFilter($query, array $filters)
     {

@@ -1,5 +1,4 @@
 import Vue from 'vue'
-//import VueMeta from 'vue-meta'
 import PortalVue from 'portal-vue'
 import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress/src'
@@ -8,11 +7,16 @@ import './register-components.js'
 import VuejsClipper from 'vuejs-clipper/dist/vuejs-clipper.umd'
 import 'vuejs-clipper/dist/vuejs-clipper.css'
 import VueRx from 'vue-rx'
+import vuetify from '@/vuetify'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+
 InertiaProgress.init()
 
 const el = document.getElementById('app')
 
 const vm = new Vue({
+  vuetify,
   metaInfo: {
     titleTemplate: title => (title ? `${title} - Ping CRM` : 'Ping CRM'),
   },
@@ -35,6 +39,7 @@ Vue.use(PortalVue)
 Vue.use(store)
 Vue.use(require('vue-moment'))
 Vue.use(VueRx)
+Vue.use(Vuetify)
 
 window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = vm.constructor
 Vue.config.devtools = process.env.NODE_ENV === 'development'

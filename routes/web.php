@@ -18,7 +18,7 @@ use App\Http\Controllers\CupConstructorController;
 //use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\NeonConstructorController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\PortfolioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,8 +80,16 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::delete('notes/{note}', [NotesController::class, 'destroy'])->name('notes.destroy');
     Route::put('notes/{note}/restore', [NotesController::class, 'restore'])->name('notes.restore');
 
-    // Reports
+    // portfolios
+    Route::get('portfolios', [PortfolioController::class, 'index'])->name('portfolios');
+    Route::post('portfolios', [PortfolioController::class, 'store'])->name('portfolios.store');
+    Route::put('portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
+    Route::delete('portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
 
+
+
+
+    // Reports
     Route::get('reports', [ReportsController::class, 'index'])
         ->name('reports')
         ->middleware('auth');
