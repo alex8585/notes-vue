@@ -19,6 +19,7 @@ use App\Http\Controllers\CupConstructorController;
 use App\Http\Controllers\NeonConstructorController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\Frontend\PortfolioController as FrontendPortfolioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -89,11 +90,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
 
 
-    // Reports
-    Route::get('reports', [ReportsController::class, 'index'])
-        ->name('reports')
-        ->middleware('auth');
-
     // Users
 
     Route::get('users', [UsersController::class, 'index'])
@@ -144,9 +140,7 @@ Route::post('logout', [LoginController::class, 'logout'])
 
 // Dashboard
 
-Route::get('/', function () {
-    return Inertia::render('Frontend/Index.vue');
-})->name('main-page');
+Route::get('/', [FrontendPortfolioController::class,'index'])->name('main-page');
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use League\Glide\Server;
 use App\Models\Portfolio;
+use App\Models\Tag;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\NoteStoreRequest;
@@ -27,19 +28,30 @@ class PortfolioController extends Controller
         $sort = $request->sort ?? 'id';
 
         $portfolios = Portfolio::filter(Request::only('search', 'category_id', 'trashed'))
-            ->sort($sort, $direction)->paginate()->withQueryString();
+            ->sort($sort, $direction)->with('tags')->paginate(20)->withQueryString();
 
         $portfolios->getCollection()->transform(function ($item) {
-            $item->imgUrl = '';
-            if (isset($item->imgUrl)) {
-                $item->imgUrl = $item->imgUrl;
-            }
+            $item->imgUrl = $item->imgUrl;
+
+            $item->tags->transform(function ($tag) {
+                return $tag->id;
+            })->toArray();
+
+            return $item;
+        });
+
+        //dd($portfolios);
+
+        $tags = Tag::all()->transform(function ($item) {
+            $item->text = $item->name;
+            $item->value = $item->id;
             return $item;
         });
 
         return inertia(
             'Admin/Portfolio/Index',
             [
+                'tags' => $tags,
                 'defaultDirection' => $direction,
                 'items' => $portfolios,
             ]
@@ -52,12 +64,17 @@ class PortfolioController extends Controller
 
         $data = $request->validated();
 
+        $tags = $data['tags'];
+        unset($data['tags']);
+        //dd($tags);
+
         if ($request->img) {
             $data['img'] = $request->img->store('portfolio');
         }
 
-        Portfolio::create($data);
+        $portfolio = Portfolio::create($data);
 
+        $portfolio->tags()->sync($tags);
         return back()
             ->with('success', "The 'Portfolio' has created.");
     }
@@ -68,7 +85,11 @@ class PortfolioController extends Controller
 
 
         $data = $request->validated();
-        //dd($data);
+
+        $tags = $data['tags'];
+        unset($data['tags']);
+
+        //dd($tags);
         if ($request->img) {
             $data['img'] = $request->img->store('portfolio');
         } else {
@@ -76,7 +97,7 @@ class PortfolioController extends Controller
         }
 
         $portfolio->update($data);
-
+        $portfolio->tags()->sync($tags);
 
         return back()->with('success', "The 'Portfolio' has updated.");
     }

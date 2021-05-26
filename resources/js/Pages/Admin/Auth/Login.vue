@@ -55,3 +55,8 @@ export default {
   },
 }
 </script>
+<style>
+button.flex {
+  flex: 0, 0 auto !important;
+}
+</style>

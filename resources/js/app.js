@@ -14,7 +14,7 @@ import 'vuetify/dist/vuetify.min.css'
 InertiaProgress.init()
 
 const el = document.getElementById('app')
-
+el.setAttribute('data-app', true)
 const vm = new Vue({
   vuetify,
   metaInfo: {

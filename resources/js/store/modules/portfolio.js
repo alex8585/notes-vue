@@ -17,6 +17,7 @@ const state = {
     img: null,
     title: null,
     url: null,
+    tags: [],
     description: null,
   }),
   editForm: Form({
@@ -24,6 +25,7 @@ const state = {
     img: null,
     title: null,
     url: null,
+    tags: [],
     description: null,
     _method: 'put',
   }),
@@ -60,7 +62,7 @@ const actions = {
   setShowModalEdit: ({ commit }, v) => commit('SET_MODAL_EDIT', v),
   editPortfolio: ({ commit }, item) => commit('EDIT_PORTFOLIO', item),
   store({ commit }) {
-    console.log(state.form)
+    //console.log(state.form)
     state.form.post(route('portfolios.store'), {
       replace: true,
       preserveState: true,
@@ -72,12 +74,13 @@ const actions = {
     })
   },
   update({ commit }) {
-    console.log(state.editForm)
+    //console.log(state.editForm)
     state.editForm.post(route('portfolios.update', state.editForm.id), {
       replace: true,
       preserveState: true,
       forceFormData: true,
       onSuccess: () => {
+        commit('RESET_FORM')
         commit('SET_MODAL_EDIT', false)
       },
     })
@@ -134,6 +137,7 @@ const mutations = {
   },
   EDIT_PORTFOLIO: (state, item) => {
     state.editForm = { ...state.editForm, ...item }
+    //console.log(state.editForm)
     state.imgUrl = item.imgUrl
     state.editForm.img = null
     if (!state.showModalEdit) state.showModalEdit = true

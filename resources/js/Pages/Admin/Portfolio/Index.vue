@@ -14,6 +14,12 @@
           <div class="pr-6 pb-8 w-full">
             <text-input v-model="form.url" :error="form.errors.url" class="pr-6 pb-8 w-full lg:w-1/2" label="Url" />
           </div>
+
+          <div class="pr-6 pb-8 w-full">
+            <div>Tags</div>
+            <v-autocomplete v-model="form.tags" :items="tags" outlined dense chips small-chips label="" multiple />
+          </div>
+
           <div class="pr-6 pb-8 w-full">
             <vue-editor v-model="form.description" label="Body" :class="{ error: form.errors.description }" />
             <div v-if="form.errors.description" class="form-error">{{ form.errors.description }}</div>
@@ -41,6 +47,12 @@
           <div class="pr-6 pb-8 w-full">
             <text-input v-model="editForm.url" :error="editForm.errors.url" class="pr-6 pb-8 w-full lg:w-1/2" label="Url" />
           </div>
+
+          <div class="pr-6 pb-8 w-full">
+            <div>Tags</div>
+            <v-autocomplete v-model="editForm.tags" :items="tags" outlined dense chips small-chips label="" multiple />
+          </div>
+
           <div class="pr-6 pb-8 w-full">
             <vue-editor v-model="editForm.description" label="Body" :class="{ error: editForm.errors.description }" />
             <div v-if="editForm.errors.description" class="form-error">{{ editForm.errors.description }}</div>
@@ -58,6 +70,7 @@
     </Modal>
 
     <h1 class="mb-8 font-bold text-3xl">Categories</h1>
+
     <!-- <div>{{ new Date() | moment('YYYY') }}</div> -->
     <div class="mb-6 flex justify-between items-center">
       <button class="btn-indigo" @click="$store.dispatch('portfolio/setShowModalCreate', true)">
@@ -135,6 +148,7 @@ export default {
     defaultDirection: String,
     categories: Array,
     items: Object,
+    tags: Array,
   },
 
   data() {

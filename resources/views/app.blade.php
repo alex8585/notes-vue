@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="{{ asset('css/app.css?v=4') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css?v=6') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Bad+Script|Didact+Gothic&amp;subset=cyrillic" rel="stylesheet"> --}}
 
@@ -16,7 +16,7 @@
     <script src="{{ mix('/js/app.js') }}" defer></script>
     @routes
 </head>
-<body class="font-sans leading-none text-gray-700 antialiased">
+<body data-app class="font-sans leading-none text-gray-700 antialiased">
 
 @inertia
 

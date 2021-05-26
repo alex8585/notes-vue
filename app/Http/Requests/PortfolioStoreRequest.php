@@ -30,6 +30,8 @@ class PortfolioStoreRequest extends FormRequest
             'description' => ['required', 'min:1'],
             'url' => ['nullable'],
             'img' => ['nullable'],
+            "tags"    => "nullable|array",
+            'tags.*' => "nullable|string",
         ];
     }
 }

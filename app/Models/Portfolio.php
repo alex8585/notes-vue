@@ -22,12 +22,24 @@ class Portfolio extends Model
         //'w' => 400, 'h' => 400, 'fit' => 'crop'
         return $this->imgUrl(['w' => 100]);
     }
+
+    public function getBigImgUrlAttribute()
+    {
+        //'w' => 400, 'h' => 400, 'fit' => 'crop'
+        return $this->imgUrl([]);
+    }
+
     public function imgUrl(array $attributes)
     {
         if ($this->img) {
             return URL::to(App::make(Server::class)->fromPath($this->img, $attributes));
         }
         return null;
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function scopeFilter($query, array $filters)
