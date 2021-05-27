@@ -45,9 +45,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     Route::get('neon-constructor', [NeonConstructorController::class, 'index'])->name('neon-constructor');
 
-    Route::get('cup-constructor', [CupConstructorController::class, 'index'])->name('cup-constructor');
-    Route::post('cup-save-image', [CupConstructorController::class, 'saveImage'])->name('cup-constructor.saveImage');
-    Route::post('cup-crop-image', [CupConstructorController::class, 'cropImage'])->name('cup-constructor.cropImage');
+
 
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
@@ -89,7 +87,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
 
 
-
+    
     // Users
 
     Route::get('users', [UsersController::class, 'index'])
@@ -140,8 +138,13 @@ Route::post('logout', [LoginController::class, 'logout'])
 
 // Dashboard
 
-Route::get('/', [FrontendPortfolioController::class,'index'])->name('main-page');
+Route::get('/', [FrontendPortfolioController::class, 'index'])->name('main-page');
 
+
+
+Route::get('cup-constructor', [CupConstructorController::class, 'index'])->name('cup-constructor');
+Route::post('cup-save-image', [CupConstructorController::class, 'saveImage'])->name('cup-constructor.saveImage');
+Route::post('cup-crop-image', [CupConstructorController::class, 'cropImage'])->name('cup-constructor.cropImage');
 
 
 

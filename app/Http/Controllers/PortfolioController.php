@@ -103,10 +103,11 @@ class PortfolioController extends Controller
     }
 
 
-    public function destroy(Note $note)
+    public function destroy(Portfolio $portfolio)
     {
-        $note->delete();
+        $portfolio->tags()->sync([]);
+        $portfolio->delete();
 
-        return Redirect::route('notes')->with('success', 'Note deleted.');
+        return Redirect::route('portfolios')->with('success', 'Portfolio deleted.');
     }
 }

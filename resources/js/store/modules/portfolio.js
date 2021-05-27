@@ -5,9 +5,11 @@ import { Inertia } from '@inertiajs/inertia'
 import { getUrlQuery } from '@/utils'
 
 const state = {
+  showDeleteDialog: false,
   showModalEdit: false,
   isUnselectable: false,
   showModalCreate: false,
+  deleteDialogItem: null,
   imgUrl: false,
   filterForm: Form({
     search: null,
@@ -35,7 +37,9 @@ const getters = {
   imgUrl() {
     return state.imgUrl
   },
-
+  showDeleteDialog() {
+    return state.showDeleteDialog
+  },
   showModalEdit() {
     return state.showModalEdit
   },
@@ -54,6 +58,9 @@ const getters = {
   filterForm() {
     return state.filterForm
   },
+  deleteDialogItem() {
+    return state.deleteDialogItem
+  },
 }
 
 const actions = {
@@ -61,6 +68,12 @@ const actions = {
   setShowModalCreate: ({ commit }, v) => commit('SET_MODAL_CREATE', v),
   setShowModalEdit: ({ commit }, v) => commit('SET_MODAL_EDIT', v),
   editPortfolio: ({ commit }, item) => commit('EDIT_PORTFOLIO', item),
+  setDeleteDialog: ({ commit }, v) => commit('SET_DELETE_DIALOG', v),
+  setDeleteDialogItem: ({ commit }, item) => {
+    commit('SET_DELETE_DIALOG_ITEM', item)
+    commit('SET_DELETE_DIALOG', true)
+  },
+
   store({ commit }) {
     //console.log(state.form)
     state.form.post(route('portfolios.store'), {
@@ -85,6 +98,17 @@ const actions = {
       },
     })
   },
+  delete({ commit }, item) {
+    Inertia.delete(route('portfolios.destroy', item.id), {
+      //preserveScroll: true,
+      replace: true,
+      preserveState: true,
+      onSuccess: () => {
+        commit('SET_DELETE_DIALOG', false)
+      },
+    })
+  },
+
   filterChange: throttle(function({ commit }, value) {
     if (value == 'reset') {
       commit('RESET_FILTER_FORM', false)
@@ -123,6 +147,9 @@ const mutations = {
   RESET_FILTER_FORM: state => state.filterForm.reset(),
   RESET_FORM: state => state.form.reset(),
   SET_UNSELECTABLE: (state, v) => (state.isUnselectable = v),
+  SET_DELETE_DIALOG: (state, v) => (state.showDeleteDialog = v),
+  SET_DELETE_DIALOG_ITEM: (state, item) => (state.deleteDialogItem = item),
+
   SET_MODAL_CREATE: (state, v) => {
     state.showModalCreate = v
     if (v == false) {

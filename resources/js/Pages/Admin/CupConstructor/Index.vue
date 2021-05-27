@@ -2,23 +2,32 @@
   <div>
     <div>
       <h1 class="mb-8 font-bold text-3xl title">Cup Constructor</h1>
-      <div style="text-align: center;">Use our constructor to create Cup and order it now!</div>
+      <!-- <div style="text-align: center;">Use our constructor to create Cup and order it now!</div> -->
     </div>
-    <div class="flex flex-wrap ">
-      <div class="lg:w-8/12">
+
+    <div style="max-height: 100px;" class="grid grid-cols-12 gap-6 max-h-100">
+      <div class="col-span-12 lg:col-span-7 scene-container ">
+        <div id="scene"></div>
+      </div>
+      <div class="col-span-12 lg:col-span-5 text-center">
+        <form>
+          <file-input v-model="form.photo" :error="form.errors.photo" type="file" accept="image/*" label="" @input="uploadFile" />
+        </form>
+        <form v-if="path">
+          <clipper-basic class="cup-clipper" :ratio="3" :max-height="100" :min-width="30" :max-width="70" :src="path" ref="clipper" @load="loadCb" />
+          <button v-if="cropData.top" class="btn-indigo mt-2" type="submit" @click.prevent="cropImg">Crop</button>
+        </form>
+      </div>
+    </div>
+    <!-- 
+    <div class="flex flex-wrap">
+      <div class="scene-container   xl:w-8/12 ">
         <div id="scene" class=""></div>
       </div>
 
-      <div class="lg:w-4/12">
-        <div class=" m-10">
-          <div class=""><img v-if="path" class="block w-8 h-8 rounded-full ml-4" :src="path" /></div>
+      <div class="xl:w-4/12 ">
+        <div class="lg:px-10">
           <form>
-            <!-- <div class="  flex flex-wrap">
-              <file-input v-model="form.photo" :error="form.errors.photo" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
-            </div>
-            <div class=" py-4 bg-gray-50 border-t border-gray-100 flex items-center">
-              <loading-button :loading="form.processing" class="btn-indigo ml-auto" type="submit">Update User</loading-button>
-            </div> -->
             <file-input v-model="form.photo" :error="form.errors.photo" type="file" accept="image/*" label="Photo" @input="uploadFile" />
           </form>
           <form v-if="path">
@@ -27,13 +36,12 @@
           </form>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import { clipperBasic } from 'vuejs-clipper'
-import LoadingButton from '@/Shared/LoadingButton'
 import Layout from '@/Shared/Layout2'
 import FileInput from '@/Shared/FileInput'
 import * as THREE from 'three'
@@ -44,7 +52,7 @@ import init from 'three-dat.gui'
 import axios from 'axios'
 export default {
   metaInfo: { title: 'Cup Constructor' },
-  components: { FileInput, LoadingButton, clipperBasic },
+  components: { FileInput, clipperBasic },
   layout: Layout,
 
   props: {
@@ -90,6 +98,7 @@ export default {
     this.loadGltf()
     //const canvas = this.$refs.clipper.clip()
     window.addEventListener('resize', this.onWindowResize)
+    this.onWindowResize()
   },
   created: function() {},
 
@@ -210,9 +219,11 @@ export default {
     //   })
     // },
     onWindowResize() {
-      this.camera.aspect = window.innerWidth / window.innerHeight
+      let sceneContainer = document.querySelector('.scene-container')
+      //console.log(sceneContainer.offsetWidth)
+      this.camera.aspect = sceneContainer.offsetWidth / sceneContainer.offsetHeight
       this.camera.updateProjectionMatrix()
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
+      this.renderer.setSize(sceneContainer.offsetWidth, sceneContainer.offsetHeight)
     },
     changTexture() {
       if (!this.cropped) {
@@ -265,7 +276,8 @@ export default {
         .then(res => {
           this.cropData.cup_id = res.data.cup_id
           this.path = res.data.path
-          //console.log(res.data.path)
+          this.onWindowResize()
+          document.querySelector('.scene-container').classList.add('my-10')
         })
 
       // this.form.post(this.route('cup-constructor.saveImage'), {
@@ -288,7 +300,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.scene-container canvas,
+.cup-clipper canvas {
+  height: 400px;
+  max-height: 400px;
+  /* width: 400px;
+  max-width: 400px; */
+}
+
 .title {
   flex: 1 100%;
   text-align: center;

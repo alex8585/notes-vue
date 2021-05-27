@@ -2,37 +2,42 @@
   <div>
     <h1 class="mb-8 mx-3 font-bold text-3xl">Portfolio</h1>
     <v-card flat tile>
-      <v-container v-for="t in types" :key="t" fluid>
-        <v-row>
-          <v-spacer />
-          <v-col v-for="item in items.data" :key="item.id" cols="12" sm="6" md="4">
-            <v-card>
+      <!-- <v-container v-for="t in types" :key="t" fluid> -->
+      <v-row>
+        <!-- <v-spacer /> -->
+        <v-col v-for="item in items.data" :key="item.id" cols="12" sm="6" md="4">
+          <v-card>
+            <div class="text-center my-3  text-black">
+              <a class="text-black" :href="item.fullUrl" target="blank">{{ item.title }}</a>
+            </div>
+            <a :href="item.fullUrl" target="blank">
               <v-img :src="item.bigImgUrl" height="300px">
                 <span class="headline white--text pl-4 pt-4 d-inline-block" v-text=""></span>
               </v-img>
-
-              <!-- <v-card-actions class="white justify-center">
+            </a>
+            <!-- <v-card-actions class="white justify-center">
                 <v-btn v-for="(social, i) in socials" :key="i" :color="social.color" class="white--text" fab icon small>
                   <v-icon>{{ social.icon }}</v-icon>
                 </v-btn>
               </v-card-actions> -->
 
-              <v-card-text>
-                <!-- <span class="mx-2 subheading"></span> -->
+            <v-card-text>
+              <!-- <span class="mx-2 subheading"></span> -->
 
-                <v-chip-group class="mx-2">
-                  <v-chip disabled v-for="tag in item.tags" :key="tag.id" :value="tag.name" class="v-chip-group-elem">
-                    {{ tag.name }}
-                  </v-chip>
-                </v-chip-group>
-                <v-btn style="font-weight:700" block class="font-bold ma-2 white--text" color="success">
-                  View
-                </v-btn>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+              <v-chip-group class="mx-2">
+                <v-chip disabled v-for="tag in item.tags" :key="tag.id" :value="tag.name" class="v-chip-group-elem">
+                  {{ tag.name }}
+                </v-chip>
+              </v-chip-group>
+              <v-btn :href="item.fullUrl" target="blank" style="font-weight:700" block class="font-bold ma-2 white--text" color="success">
+                View
+              </v-btn>
+              <!-- fullUrl -->
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <!-- </v-container> -->
     </v-card>
   </div>
 </template>
@@ -49,24 +54,7 @@ export default {
   },
 
   data: () => ({
-    selection: '08',
     types: ['Places to Be', 'Places to See'],
-    cards: ['Good', 'Best', 'Finest'],
-    tags: ['Work', 'Home Improvement', 'Vacation'],
-    socials: [
-      {
-        icon: 'mdi-facebook',
-        color: 'indigo',
-      },
-      {
-        icon: 'mdi-linkedin',
-        color: 'cyan darken-1',
-      },
-      {
-        icon: 'mdi-instagram',
-        color: 'red lighten-3',
-      },
-    ],
   }),
 
   mounted: function() {
@@ -92,5 +80,14 @@ export default {
   color: rgba(0, 0, 0, 0.87);
 
   opacity: 1;
+}
+.v-application .v-card a {
+  color: black;
+}
+.v-application .form-input.error,
+.v-application .form-textarea.error,
+.v-application .form-select.error {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
 }
 </style>

@@ -31,6 +31,24 @@
   @apply border-red-500 focus:ring focus:ring-red-200;
 }
 
+.v-application .form-input,
+.v-application .form-textarea,
+.v-application .form-select,
+.v-application .quillWrapper {
+  border-style:  solid;
+  background-color: transparent !important;
+  border-color: #e2e8f0;
+}
+
+.v-application .form-input.error,
+.v-application .form-textarea.error,
+.v-application .form-select.error,
+.v-application .quillWrapper.error {
+  border-style:  solid;
+  background-color: transparent !important;
+  border-color: #ff5252 !important;
+}
+
 .form-error {
   @apply text-red-700 mt-2 text-sm;
 }

@@ -69,6 +69,22 @@
       </div>
     </Modal>
 
+    <v-dialog class="delete-dialog " v-model="showDeleteDialog" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">Delete confirmation </v-card-title>
+        <v-card-text>Are you sure you want to delete portfolio "{{ deleteDialogItem ? deleteDialogItem.title : '' }}" ?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn depressed text color="green darken-1" @click="$store.dispatch('portfolio/setDeleteDialog', false)">
+            Cancel
+          </v-btn>
+          <v-btn depressed text color="red darken-1" @click="$store.dispatch('portfolio/delete', deleteDialogItem)">
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <h1 class="mb-8 font-bold text-3xl">Categories</h1>
 
     <!-- <div>{{ new Date() | moment('YYYY') }}</div> -->
@@ -110,7 +126,14 @@
           </td>
 
           <td class="border-t">
-            <button class="btn-indigo" @click.prevent="$store.dispatch('portfolio/editPortfolio', item)">Edit</button>
+            <!-- <button class="btn-indigo" @click.prevent="$store.dispatch('portfolio/editPortfolio', item)">Edit</button> -->
+            <v-btn depressed color="primary" @click.prevent="$store.dispatch('portfolio/editPortfolio', item)">
+              Edit
+            </v-btn>
+            <v-btn depressed color="error" @click.prevent="$store.dispatch('portfolio/setDeleteDialogItem', item)">
+              Delete
+            </v-btn>
+            <!-- <button class="btn-indigo" @click.prevent="$store.dispatch('portfolio/setDeleteDialogTxt', item)">Delete</button> -->
           </td>
         </tr>
         <tr v-if="items.data.length === 0">
@@ -152,9 +175,11 @@ export default {
   },
 
   data() {
-    return {}
+    return {
+      deleteDialog: false,
+    }
   },
-  computed: mapGetters('portfolio', ['imgUrl', 'form', 'editForm', 'filterForm', 'showModalEdit', 'isUnselectable', 'showModalCreate']),
+  computed: mapGetters('portfolio', ['deleteDialogItem', 'imgUrl', 'showDeleteDialog', 'form', 'editForm', 'filterForm', 'showModalEdit', 'isUnselectable', 'showModalCreate']),
   mounted: function() {},
   methods: {
     ...mapActions('portfolio', ['store', 'update', 'setShowModalCreate', 'setUnselectable', 'setShowModalEdit', 'editPortfolio ', 'filterChange', 'sortHanle']),
@@ -168,4 +193,24 @@ export default {
   },
 }
 </script>
-<style scoped></style>
+<style>
+.theme--light.v-card .v-card__subtitle,
+.theme--light.v-card > .v-card__text {
+  color: rgba(241, 14, 14, 0.6);
+}
+.delete-dialog .v-card__subtitle,
+.v-card__text {
+  font-size: 16px;
+  font-weight: 800;
+}
+.green--text.text--darken-1 {
+  color: #43a047 !important;
+  caret-color: #43a047 !important;
+  font-weight: 600;
+}
+.red--text.text--darken-1 {
+  color: #e62a11 !important;
+  caret-color: #e62a11 !important;
+  font-weight: 600;
+}
+</style>

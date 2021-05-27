@@ -10,7 +10,7 @@
       </div>
       <div v-else class="flex items-center justify-between p-2">
         <div class="flex-1 pr-1">
-          {{ value.name }} <span class="text-gray-500 text-xs">({{ filesize(value.size) }})</span>
+          {{ value.name.substring(0, 20) }} <span class="text-gray-500 text-xs">({{ filesize(value.size) }})</span>
         </div>
         <button type="button" class="px-4 py-1 bg-gray-500 hover:bg-gray-700 rounded-sm text-xs font-medium text-white" @click="remove">
           Remove

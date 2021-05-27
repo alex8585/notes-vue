@@ -22,24 +22,15 @@ class PortfolioController extends Controller
         $items = Portfolio::paginate(20);
 
 
-        // $items->transform(function ($item) {
-        //     $item->bigImgUrl = $item->bigImgUrl;
-        //     return $item;
-        // });
-
         $items->getCollection()->transform(function ($item) {
             $item->bigImgUrl = $item->bigImgUrl;
             $item->tags = $item->tags;
-            // $item->tags->transform(function ($tag) {
-            //     $newTag =
-            //     return $tag->id;
-            // })->toArray();
-
+            $item->fullUrl = $item->fullUrl;
             return $item;
         });
 
 
-        //dd( $items);
+        //dd($items);
         return Inertia::render('Frontend/Index.vue', ['items' => $items]);
     }
 }

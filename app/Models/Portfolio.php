@@ -17,6 +17,12 @@ class Portfolio extends Model
         'updated_at' => 'date:d-m-Y H:i',
     ];
 
+    public function getFullUrlAttribute()
+    {
+        return route('main-page') . "/" . $this->url;
+    }
+
+
     public function getImgUrlAttribute()
     {
         //'w' => 400, 'h' => 400, 'fit' => 'crop'
