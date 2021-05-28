@@ -43,20 +43,23 @@
   </div>
 </template>
 
-<script>
-import Icon from '@/Shared/Icon'
+<script lang="ts">
+declare const route: any
+
+import Icon from '@/Shared/Icon.vue'
 //import pickBy from 'lodash/pickBy'
-import Layout from '@/Shared/Layout'
+
+import Layout from '@/Shared/Layout.vue'
 //import throttle from 'lodash/throttle'
 //import mapValues from 'lodash/mapValues'
-import Pagination from '@/Shared/Pagination'
+
+//import Pagination from '@/Shared/Pagination.vue'
 //import SearchFilter from '@/Shared/SearchFilter'
 
 export default {
-  metaInfo: { title: 'Categories' },
   components: {
     Icon,
-    Pagination,
+    //Pagination,
   },
   layout: Layout,
   props: {
@@ -85,7 +88,7 @@ export default {
 
     sortHanle(sort) {
       let query = this.getUrlQuery()
-
+      console.log(3)
       let direction = query.direction ? query.direction : this.defaultDirection
 
       direction = direction == 'asc' ? 'desc' : 'asc'

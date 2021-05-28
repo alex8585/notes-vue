@@ -16,3 +16,4 @@ npm-debug.log
 yarn-error.log
 package-lock.json
 cron-log.txt
+public/images/
