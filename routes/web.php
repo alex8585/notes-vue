@@ -20,6 +20,8 @@ use App\Http\Controllers\NeonConstructorController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\Frontend\PortfolioController as FrontendPortfolioController;
+
+use App\Http\Controllers\TagsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -85,9 +87,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update');
     Route::delete('portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy');
 
+    // portfolios
+    Route::get('tags', [TagsController::class, 'index'])->name('tags');
+    Route::post('tags', [TagsController::class, 'store'])->name('tags.store');
+    Route::put('tags/{tag}', [TagsController::class, 'update'])->name('tags.update');
+    Route::delete('tags/{tag}', [TagsController::class, 'destroy'])->name('tags.destroy');
 
 
-    
     // Users
 
     Route::get('users', [UsersController::class, 'index'])

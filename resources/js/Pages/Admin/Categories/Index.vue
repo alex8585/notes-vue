@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <Layout>
     <h1 class="mb-8 font-bold text-3xl">Categories</h1>
     <div class="mb-6 flex justify-between items-center">
       <inertia-link class="btn-indigo" :href="route('categories.create')">
@@ -39,68 +39,43 @@
         </tr>
       </table>
     </div>
+
     <pagination class="mt-6" :links="categories.links" />
-  </div>
+  </Layout>
 </template>
 
 <script lang="ts">
-declare const route: any
-
+import { Component, Prop } from 'vue-property-decorator'
+import Vue from 'vue'
 import Icon from '@/Shared/Icon.vue'
 //import pickBy from 'lodash/pickBy'
 
 import Layout from '@/Shared/Layout.vue'
 //import throttle from 'lodash/throttle'
 //import mapValues from 'lodash/mapValues'
-
+import { categoriesModule } from '@/store/modules/categories'
 //import Pagination from '@/Shared/Pagination.vue'
 //import SearchFilter from '@/Shared/SearchFilter'
-
-export default {
+@Component({
   components: {
     Icon,
-    //Pagination,
+    Layout,
   },
-  layout: Layout,
   props: {
-    defaultDirection: String,
     categories: Object,
   },
+})
+export default class CategoriesIndex extends Vue {
+  @Prop() defaultDirection!: string
 
-  data() {
-    return {}
-  },
+  sortHanle(sort: string) {
+    let defaultDirection = this.defaultDirection
 
-  mounted: function() {
-    //console.log(this.contacts.data)
-  },
-  methods: {
-    getUrlQuery(param = null) {
-      let url = new URL(window.location.href)
-      if (param) {
-        return url.searchParams.get(param)
-      }
-
-      let params = {}
-      url.searchParams.forEach((v, k) => (params[k] = v))
-      return params
-    },
-
-    sortHanle(sort) {
-      let query = this.getUrlQuery()
-      console.log(3)
-      let direction = query.direction ? query.direction : this.defaultDirection
-
-      direction = direction == 'asc' ? 'desc' : 'asc'
-
-      query = { ...query, direction, sort }
-
-      this.$inertia.get(route(route().current()), query, {
-        //preserveScroll: true,
-        replace: true,
-        preserveState: true,
-      })
-    },
-  },
+    let params = {
+      sort,
+      defaultDirection,
+    }
+    categoriesModule.sortHanle(params)
+  }
 }
 </script>

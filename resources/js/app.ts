@@ -12,6 +12,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 declare const route:any;
 InertiaProgress.init()
+import axios from 'axios'
 
 const el = document.getElementById('app')
 //el.setAttribute('data-app', true)
@@ -47,3 +48,4 @@ Vue.use(VuejsClipper, {
     clipperPreview: true,
   },
 })
+//vm.config.globalProperties.$axios = axios

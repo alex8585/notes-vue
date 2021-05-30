@@ -11,6 +11,10 @@
   height: 1.5em;
 }
 
+.v-application a.btn-indigo  {
+  color: #ffffff;
+}
+
 .btn-spinner {
   font-size: 10px;
   position: relative;
