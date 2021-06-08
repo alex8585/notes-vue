@@ -1,8 +1,9 @@
 import Vue from 'vue'
+
 import PortalVue from 'portal-vue'
 import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress/src'
-import store from './store'
+import store from '@/store'
 import './register-components.js'
 import VuejsClipper from 'vuejs-clipper/dist/vuejs-clipper.umd'
 import 'vuejs-clipper/dist/vuejs-clipper.css'
@@ -14,7 +15,8 @@ declare const route:any;
 InertiaProgress.init()
 import axios from 'axios'
 
-const el = document.getElementById('app')
+const el = document.getElementById('app')!
+const page = el.dataset.page!
 //el.setAttribute('data-app', true)
 const vm = new Vue({
   vuetify,
@@ -23,8 +25,8 @@ const vm = new Vue({
   render: h =>
     h(App, {
       props: {
-        initialPage: JSON.parse(el.dataset.page),
-        resolveComponent: name => import(`@/Pages/${name}`).then(module => module.default),
+        initialPage: JSON.parse(page),
+        resolveComponent: (name:string ) => import(`@/Pages/${name}`).then(module => module.default),
       },
     }),
 }).$mount(el)

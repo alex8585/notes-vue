@@ -63,7 +63,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
 
     // Categories
-    Route::get('categories', [CategoriesController::class, 'index'])->name('categories')->middleware('remember');
+    //Route::get('categories', [CategoriesController::class, 'index'])->name('categories')->middleware('remember');
+    Route::get('categories', [CategoriesController::class, 'index'])->name('categories');
     Route::get('categories/create', [CategoriesController::class, 'create'])->name('categories.create');
     Route::post('categories', [CategoriesController::class, 'store'])->name('categories.store');
     Route::get('categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');

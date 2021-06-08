@@ -1,5 +1,12 @@
+declare module '@inertiajs/progress/src';
+declare module 'portal-vue';
+declare module 'vuejs-clipper/dist/vuejs-clipper.umd';
+declare module '@/store';
+declare module '@/vuetify';
+
 
 type Query  = {
+  //[s: string]: string
   direction?: string
   sort?:string
   page?:string

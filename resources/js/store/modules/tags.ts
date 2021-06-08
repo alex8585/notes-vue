@@ -6,30 +6,36 @@ import { Inertia } from '@inertiajs/inertia'
 class TagsModule extends VuexModule  {
   public query:Query = {};
  
-  get getQueryTags(): Query {
+  get getQuery(): Query {
     return this.query
   }
 
-  @Action sortHanle( {sort, defaultDirection }) {
-  
-    this.setQuery({sort, defaultDirection})
+  @Action sortHanle({ sort, defaultDirection }:{sort:string,defaultDirection:string }) {
    
-    Inertia.get(route(route().current()), this.getQueryTags, {
+    this.setQuery({sort, defaultDirection})
+
+    Inertia.get(route(route().current()), this.getQuery, {
       replace: true,
       preserveState: true,
     })
     
   }
 
-  @Mutation setQuery({sort, defaultDirection}: {sort:string, defaultDirection:string}): void {
+  @Mutation setQuery({sort , defaultDirection }:{sort: string, defaultDirection: string}): void {
     let url = new URL(window.location.href)
     let query: Query = {}
-    url.searchParams.forEach((v, k) => (query[k] = v))
-   
-    let direction = defaultDirection == 'asc' ? 'desc' : 'asc'
+    url.searchParams.forEach((v, k) => {
+      if(k == 'direction' || k == 'sort'|| k == 'sort') {
+        query[k] = v
+      }
+    })
     
-    this.query = { ...query, direction, sort };
-   
+      
+    let direction = query.direction ? query.direction : defaultDirection
+    
+    direction = direction == 'asc' ? 'desc' : 'asc'
+
+    this.query = { ...query, direction, sort }
   }
 
 }
