@@ -7,10 +7,13 @@
         <!-- <v-spacer /> -->
         <v-col v-for="item in items.data" :key="item.id" cols="12" sm="6" md="4">
           <v-card>
-            <div class="text-center my-3  text-black">
-              <a class="text-black" :href="item.fullUrl" target="blank">{{ item.title }}</a>
-            </div>
-            <a :href="item.fullUrl" target="blank">
+            <h2 class="text-center my-3  text-black text-2xl">
+              <a class="text-black" :href="item.fullUrl" target="_blank">
+                {{ item.title }}
+              </a>
+            </h2>
+
+            <a :href="item.fullUrl" target="_blank">
               <v-img :src="item.bigImgUrl" height="300px">
                 <span class="headline white--text pl-4 pt-4 d-inline-block" v-text=""></span>
               </v-img>
@@ -25,11 +28,11 @@
               <!-- <span class="mx-2 subheading"></span> -->
 
               <v-chip-group class="mx-2">
-                <v-chip disabled v-for="tag in item.tags" :key="tag.id" :value="tag.name" class="v-chip-group-elem">
+                <v-chip v-for="tag in item.tags" :key="tag.id" :value="tag.name" disabled class="v-chip-group-elem">
                   {{ tag.name }}
                 </v-chip>
               </v-chip-group>
-              <v-btn :href="item.fullUrl" target="blank" style="font-weight:700" block class="font-bold ma-2 white--text" color="success">
+              <v-btn :href="item.fullUrl" target="_blank" style="font-weight:700" block class="font-bold ma-2 white--text" color="success">
                 View
               </v-btn>
               <!-- fullUrl -->

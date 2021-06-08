@@ -112,7 +112,9 @@
           </td>
           <td class="border-t">
             <div class="px-6 py-4 flex items-center focus:text-indigo-500">
-              <img :src="item.imgUrl" />
+              <a :href="item.fullUrl" target="blank">
+                <img :src="item.imgUrl" />
+              </a>
             </div>
           </td>
           <td class="border-t">

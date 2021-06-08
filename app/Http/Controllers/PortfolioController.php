@@ -32,6 +32,7 @@ class PortfolioController extends Controller
 
         $portfolios->getCollection()->transform(function ($item) {
             $item->imgUrl = $item->imgUrl;
+            $item->fullUrl = $item->fullUrl;
 
             $item->tags->transform(function ($tag) {
                 return $tag->id;
