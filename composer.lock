@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef30d5ba089d4bf69fc9fe6033e57924",
+    "content-hash": "5e77a86689f15a7bd6b173e788ac8462",
     "packages": [
+        {
+            "name": "allyans3/steam-market-api-v2",
+            "version": "v2.8.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Allyans3/steam-market-api-v2.git",
+                "reference": "cd7a3707a2baf15854854693157656bed41b853f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Allyans3/steam-market-api-v2/zipball/cd7a3707a2baf15854854693157656bed41b853f",
+                "reference": "cd7a3707a2baf15854854693157656bed41b853f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-curl": "*",
+                "ext-intl": "*",
+                "ext-json": "*",
+                "ext-zlib": "*",
+                "imangazaliev/didom": "^1.16",
+                "php-curl-class/php-curl-class": "^8.9.0",
+                "psy/psysh": "^0.10.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SteamApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Allyans3",
+                    "email": "a.sylenok@gmail.com"
+                }
+            ],
+            "description": "Steam market API v2",
+            "support": {
+                "issues": "https://github.com/Allyans3/steam-market-api-v2/issues",
+                "source": "https://github.com/Allyans3/steam-market-api-v2/tree/v2.8.5"
+            },
+            "time": "2021-05-20T17:02:25+00:00"
+        },
         {
             "name": "anlutro/l4-settings",
             "version": "v1.0.0",
@@ -2314,6 +2361,58 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
+            "name": "imangazaliev/didom",
+            "version": "1.16.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Imangazaliev/DiDOM.git",
+                "reference": "7fc9cc1f519e5b2342c3ce00d98e53ed32b33011"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Imangazaliev/DiDOM/zipball/7fc9cc1f519e5b2342c3ce00d98e53ed32b33011",
+                "reference": "7fc9cc1f519e5b2342c3ce00d98e53ed32b33011",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-iconv": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DiDom\\": "src/DiDom/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Imangazaliev Muhammad",
+                    "email": "imangazalievm@gmail.com"
+                }
+            ],
+            "description": "Simple and fast HTML parser",
+            "homepage": "https://github.com/Imangazaliev/DiDOM",
+            "keywords": [
+                "didom",
+                "html",
+                "parser",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/Imangazaliev/DiDOM/issues",
+                "source": "https://github.com/Imangazaliev/DiDOM/tree/1.16.3"
+            },
+            "time": "2021-02-09T16:06:11+00:00"
+        },
+        {
             "name": "inertiajs/inertia-laravel",
             "version": "v0.3.6",
             "source": {
@@ -4263,6 +4362,77 @@
                 "source": "https://github.com/phar-io/version/tree/3.1.0"
             },
             "time": "2021-02-23T14:00:09+00:00"
+        },
+        {
+            "name": "php-curl-class/php-curl-class",
+            "version": "8.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-curl-class/php-curl-class.git",
+                "reference": "159542c3cf65f9c40b119b87b0427f196c356dbf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-curl-class/php-curl-class/zipball/159542c3cf65f9c40b119b87b0427f196c356dbf",
+                "reference": "159542c3cf65f9c40b119b87b0427f196c356dbf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "ext-gd": "*",
+                "phpunit/phpunit": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "suggest": {
+                "ext-mbstring": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Curl\\": "src/Curl/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Unlicense"
+            ],
+            "authors": [
+                {
+                    "name": "Zach Borboa"
+                }
+            ],
+            "description": "PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs.",
+            "homepage": "https://github.com/php-curl-class/php-curl-class",
+            "keywords": [
+                "API-Client",
+                "api",
+                "class",
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http-client",
+                "http-proxy",
+                "json",
+                "php",
+                "php-curl",
+                "php-curl-library",
+                "proxy",
+                "requests",
+                "restful",
+                "web-scraper",
+                "web-scraping ",
+                "web-service",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/php-curl-class/php-curl-class/issues",
+                "source": "https://github.com/php-curl-class/php-curl-class/tree/8.9.3"
+            },
+            "time": "2021-04-29T14:13:53+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -10049,6 +10219,66 @@
             "time": "2021-03-28T09:42:18+00:00"
         },
         {
+            "name": "syntax/steam-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/syntaxerrors/Steam.git",
+                "reference": "09974abbadf89f928ff7a9cde78a4ff1e5844fe4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/syntaxerrors/Steam/zipball/09974abbadf89f928ff7a9cde78a4ff1e5844fe4",
+                "reference": "09974abbadf89f928ff7a9cde78a4ff1e5844fe4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "laravel/framework": "^6.20.12|^7.30.3|^8.22.1",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.5",
+                "vlucas/phpdotenv": "^5.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Syntax\\SteamApi\\SteamApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Syntax\\SteamApi\\": "src/Syntax/SteamApi"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stygian",
+                    "email": "stygian.warlock.v2@gmail.com"
+                }
+            ],
+            "description": "A steam-api client for Laravel 6+",
+            "support": {
+                "issues": "https://github.com/syntaxerrors/Steam/issues",
+                "source": "https://github.com/syntaxerrors/Steam/tree/master"
+            },
+            "time": "2021-01-24T02:08:13+00:00"
+        },
+        {
             "name": "textalk/websocket",
             "version": "1.5.3",
             "source": {
@@ -10775,7 +11005,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "league/glide": 20
+        "league/glide": 20,
+        "syntax/steam-api": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

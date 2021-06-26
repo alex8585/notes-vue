@@ -85,7 +85,7 @@
       </v-card>
     </v-dialog>
 
-    <h1 class="mb-8 font-bold text-3xl">Categories</h1>
+    <h1 class="mb-8 font-bold text-3xl">Portfolio</h1>
 
     <!-- <div>{{ new Date() | moment('YYYY') }}</div> -->
     <div class="mb-6 flex justify-between items-center">
